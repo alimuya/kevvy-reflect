@@ -7,50 +7,85 @@ import com.alimuya.kevvy.reflect.KevvyField;
 import com.alimuya.kevvy.reflect.KevvyFieldReflect;
 
 public class FieldAccessBenchmark extends Benchmark {
+	
 	public FieldAccessBenchmark () throws Exception {
 		int count = 1000000;
 		Object[] dontCompileMeAway = new Object[count];
 		BenchmarkFieldBean testFieldBean=new BenchmarkFieldBean();
-		KevvyField kevvyField = KevvyFieldReflect.createFieldReflect(BenchmarkFieldBean.class).getField("a");
-		Field field = BenchmarkFieldBean.class.getDeclaredField("a");
-		field.setAccessible(true);
-
+		KevvyField kevvyPublicField = KevvyFieldReflect.createFieldReflect(BenchmarkFieldBean.class).getField("publicField");
+		KevvyField kevvyMixedField = KevvyFieldReflect.createFieldReflect(BenchmarkFieldBean.class).getField("mixedField");
+		KevvyField kevvyPrivateField = KevvyFieldReflect.createFieldReflect(BenchmarkFieldBean.class).getField("privateField");
+		Field javaField = BenchmarkFieldBean.class.getDeclaredField("publicField");
+		javaField.setAccessible(true);
+		String testString ="ov-alimuya";
 		for (int i = 0; i < 100; i++) {
 			for (int ii = 0; ii < count; ii++) {
-				kevvyField.setObject(testFieldBean, "first");
-				dontCompileMeAway[ii] = kevvyField.get(testFieldBean);
+				testFieldBean.setGsField(testString);
+				dontCompileMeAway[ii] = testFieldBean.getGsField();
 			}
 			for (int ii = 0; ii < count; ii++) {
-//				field.set(testBean, "first");
-//				dontCompileMeAway[ii] = field.get(testBean);
-				testFieldBean.setA("first");
-				dontCompileMeAway[ii] = testFieldBean.getA();
+				kevvyPublicField.setObject(testFieldBean, testString);
+				dontCompileMeAway[ii] = kevvyPublicField.get(testFieldBean);
+			}
+			for (int ii = 0; ii < count; ii++) {
+				kevvyMixedField.setObject(testFieldBean, testString);
+				dontCompileMeAway[ii] = kevvyMixedField.get(testFieldBean);
+			}
+			for (int ii = 0; ii < count; ii++) {
+				kevvyPrivateField.setObject(testFieldBean, testString);
+				dontCompileMeAway[ii] = kevvyPrivateField.get(testFieldBean);
+			}
+			for (int ii = 0; ii < count; ii++) {
+				javaField.set(testFieldBean, testString);
+				dontCompileMeAway[ii] = javaField.get(testFieldBean);
 			}
 		}
 		warmup = false;
-
 		for (int i = 0; i < 100; i++) {
 			start();
 			for (int ii = 0; ii < count; ii++) {
-				kevvyField.setObject(testFieldBean, "first");
-				dontCompileMeAway[ii] = kevvyField.get(testFieldBean);
-//				testBean.setA("first");
-//				dontCompileMeAway[ii] = testBean.getA();
+				testFieldBean.setGsField(testString);
+				dontCompileMeAway[ii] = testFieldBean.getGsField();
 			}
-			end("Kevvy-Reflection");
+			end("java getter/setter");
 		}
 		for (int i = 0; i < 100; i++) {
 			start();
 			for (int ii = 0; ii < count; ii++) {
-//				field.set(testBean, "first");
-//				dontCompileMeAway[ii] = field.get(testBean);
-				testFieldBean.setA("first");
-				dontCompileMeAway[ii] = testFieldBean.getA();
+				kevvyPublicField.setObject(testFieldBean, testString);
+				dontCompileMeAway[ii] = kevvyPublicField.get(testFieldBean);
 			}
-			end("Java-Reflection");
+			end("Kevvy-Public-Field");
+		}
+		
+		
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++) {
+				kevvyMixedField.setObject(testFieldBean, testString);
+				dontCompileMeAway[ii] = kevvyMixedField.get(testFieldBean);
+			}
+			end("Kevvy-Mixed-Field");
+		}
+		
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++) {
+				kevvyPrivateField.setObject(testFieldBean, testString);
+				dontCompileMeAway[ii] = kevvyPrivateField.get(testFieldBean);
+			}
+			end("Kevvy-Private-Field");
+		}
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++) {
+				javaField.set(testFieldBean, testString);
+				dontCompileMeAway[ii] = javaField.get(testFieldBean);
+			}
+			end("Java-Reflect");
 		}
 
-		chart("Field Set/Get");
+		chart("Kevvy Field Set/Get Benchmark");
 	}
 
 	public static void main (String[] args) throws Exception {
