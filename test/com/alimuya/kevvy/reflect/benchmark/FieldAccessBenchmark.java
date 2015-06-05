@@ -47,7 +47,7 @@ public class FieldAccessBenchmark extends Benchmark {
 				testFieldBean.setGsField(testString);
 				dontCompileMeAway[ii] = testFieldBean.getGsField();
 			}
-			end("java getter/setter");
+			end("Java-Getter/Setter");
 		}
 		for (int i = 0; i < 100; i++) {
 			start();
