@@ -12,6 +12,7 @@ import com.alimuya.kevvy.reflect.factroy.FieldClassBuilder;
  *
  */
 public class KevvyFieldReflect {
+	private static Map<Class<?>, KevvyFieldReflect> cache=new HashMap<Class<?>, KevvyFieldReflect>();
 	private Map<String,KevvyField> map=new HashMap<String,KevvyField>();
 	private KevvyField[] array=null;
 	
@@ -38,7 +39,12 @@ public class KevvyFieldReflect {
 		if(claz==null || claz.isPrimitive()){
 			throw new IllegalArgumentException("argument claz==null || claz.isPrimitive()");
 		}
-		return new KevvyFieldReflect(claz);
+		KevvyFieldReflect reflect = cache.get(claz);
+		if(reflect==null){
+			reflect=new KevvyFieldReflect(claz);
+			cache.put(claz, reflect);
+		}
+		return reflect;
 	}
 	
 	public KevvyField[] getFields(){

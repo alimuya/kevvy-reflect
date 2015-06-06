@@ -2,6 +2,9 @@ package com.alimuya.kevvy.reflect;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.alimuya.kevvy.reflect.exception.ConstructorReflectException;
 import com.alimuya.kevvy.reflect.factroy.ConstructorBuilder;
@@ -13,6 +16,7 @@ import com.alimuya.kevvy.reflect.factroy.UnsafeFactory;
  * @param <T>
  */
 public class KevvyConstructorReflect<T> {
+	private static Map<Class<?>, KevvyConstructorReflect<?>> cache=new HashMap<Class<?>,KevvyConstructorReflect<?>>();
 	private KevvyConstructor<T>[] array=null;
 	
 	@SuppressWarnings("unchecked")
@@ -52,11 +56,17 @@ public class KevvyConstructorReflect<T> {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static<T> KevvyConstructorReflect<T> createKevvyConstructor(Class<T> claz) throws ConstructorReflectException{
 		if(claz==null || claz.isPrimitive()){
 			throw new IllegalArgumentException("argument claz==null || claz.isPrimitive()");
 		}
-		return new KevvyConstructorReflect<T>(claz);
+		KevvyConstructorReflect<T> reflect = (KevvyConstructorReflect<T>) cache.get(claz);
+		if(reflect==null){
+			reflect=new KevvyConstructorReflect<T>(claz);
+			cache.put(claz, reflect);
+		}
+		return reflect;
 	}
 	
 //	public

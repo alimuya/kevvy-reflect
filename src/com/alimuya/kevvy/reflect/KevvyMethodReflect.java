@@ -15,6 +15,7 @@ import com.alimuya.kevvy.reflect.factroy.MethodClassBuilder;
  *
  */
 public class KevvyMethodReflect {
+	private static Map<Class<?>, KevvyMethodReflect> cache=new HashMap<Class<?>, KevvyMethodReflect>();
 	private Map<String,List<KevvyMethod>> map=new HashMap<String,List<KevvyMethod>>();
 	private KevvyMethod[] array=null;
 	
@@ -50,7 +51,12 @@ public class KevvyMethodReflect {
 		if(claz==null || claz.isPrimitive()){
 			throw new IllegalArgumentException("argument claz==null || claz.isPrimitive()");
 		}
-		return new KevvyMethodReflect(claz);
+		KevvyMethodReflect reflect = cache.get(claz);
+		if(reflect==null){
+			reflect=new KevvyMethodReflect(claz);
+			cache.put(claz, reflect);
+		}
+		return reflect;
 	}
 
 	public KevvyMethod[] getMethods(){
