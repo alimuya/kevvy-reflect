@@ -13,4 +13,8 @@ public class TestConstructorBean {
 	public TestConstructorBean (long [] p1, String [] p2){}
 //	
 	public TestConstructorBean (List<String> list){}
+	
+	public TestConstructorBean (long p1)throws Exception{
+		throw new Exception();
+	}
 }
