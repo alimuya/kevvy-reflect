@@ -110,7 +110,7 @@ public class KevvyMethodTest extends TestCase {
 	}
 	
 	@Test
-	public void test7Invoke() {
+	public void testInvokeExceptionInvoke() {
 		try {
 			KevvyMethod method = kr.getMethod("test7",String [].class,  int.class);
 			method.invoke(bean,new String []{"womeng","234"},23);
@@ -118,16 +118,16 @@ public class KevvyMethodTest extends TestCase {
 		} catch (MethodReflectException e) {
 			fail();
 		} catch (InvokeTargetException e) {
-			assertTrue(true);;
+			assertTrue(true);
 		}
 	}
 	
 
 	@Test
-	public void test8Invoke() {
+	public void testKevvyExceptionInvoke() {
 		try {
-			KevvyMethod method = kr.getMethod("test7",String [].class,  int.class);
-			method.invoke(bean,new String []{"womeng","234"});
+			KevvyMethod method = kr.getMethod("test6",String [].class,  int.class);
+			method.invoke(bean,2);
 			fail();
 		} catch (MethodReflectException e) {
 			assertTrue(true);
@@ -136,17 +136,4 @@ public class KevvyMethodTest extends TestCase {
 		}
 	}
 	
-
-	@Test
-	public void test9Invoke() {
-		try {
-			KevvyMethod method = kr.getMethod("test7",String [].class,  int.class);
-			method.invoke(bean,new String []{"womeng","234"},23,"ss");
-			fail();
-		} catch (MethodReflectException e) {
-			fail();
-		} catch (InvokeTargetException e) {
-			assertTrue(true);;
-		}
-	}
 }
