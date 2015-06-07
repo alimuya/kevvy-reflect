@@ -1,5 +1,7 @@
+# assistant
+assistant/
 # java class
-*.class
+bin/
 
 # Windows image file caches
 Thumbs.db
