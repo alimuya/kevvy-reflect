@@ -6,6 +6,10 @@ import com.alimuya.kevvy.reflect.exception.ConstructorReflectException;
 import com.alimuya.kevvy.reflect.exception.InvokeTargetException;
 import com.alimuya.kevvy.reflect.test.bean.TestConstructorBean;
 
+/**
+ * @author ov_alimuya
+ *
+ */
 public class ConstructorExample {
 	
 	public static void main(String[] args) throws ConstructorReflectException, InvokeTargetException {
@@ -13,7 +17,13 @@ public class ConstructorExample {
 		KevvyConstructor<TestConstructorBean> kc = kcr.getConstructor(String.class);
 		TestConstructorBean bean = kc.newInstance("slslsls");
 		if(bean!=null && bean instanceof TestConstructorBean){
-			System.out.println("HAHA!");
+			System.out.println("HAHA1!");
+		}
+		//======================================
+		
+		TestConstructorBean emptyBean = KevvyConstructorReflect.newIstanceWithoutConstructor(TestConstructorBean.class);
+		if(emptyBean!=null && emptyBean instanceof TestConstructorBean){
+			System.out.println("HAHA2!");
 		}
 	}
 }

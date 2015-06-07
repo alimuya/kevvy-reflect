@@ -7,6 +7,10 @@ import com.alimuya.kevvy.reflect.exception.MethodReflectException;
 import com.alimuya.kevvy.reflect.test.bean.TestMethodInvokeBean;
 
 
+/**
+ * @author ov_alimuya
+ *
+ */
 public class MethodExample {
 	
 	public static void main(String[] args) throws MethodReflectException, InvokeTargetException {

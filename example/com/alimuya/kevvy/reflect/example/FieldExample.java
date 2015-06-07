@@ -5,7 +5,11 @@ import com.alimuya.kevvy.reflect.KevvyFieldReflect;
 import com.alimuya.kevvy.reflect.exception.FieldReflectException;
 import com.alimuya.kevvy.reflect.test.bean.TestFieldBean;
 
-public class FiledExample {
+/**
+ * @author ov_alimuya
+ *
+ */
+public class FieldExample {
 	
 	public static void main(String[] args) throws FieldReflectException {
 		TestFieldBean bean=new TestFieldBean();
