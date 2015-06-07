@@ -49,7 +49,7 @@ public class KevvyConstructorReflectTest extends TestCase {
 	}
 
 	@Test
-	public void testNewIstanceWithoutConstructor() throws InstantiationException {
+	public void testNewIstanceWithoutConstructor() throws ConstructorReflectException {
 		TestConstructorBean bean = KevvyConstructorReflect.newIstanceWithoutConstructor(TestConstructorBean.class);
 		assertNotNull(bean);
 		assertTrue(bean instanceof TestConstructorBean);
