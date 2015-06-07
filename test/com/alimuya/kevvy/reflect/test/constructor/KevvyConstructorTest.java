@@ -10,10 +10,8 @@ import org.junit.Test;
 
 import com.alimuya.kevvy.reflect.KevvyConstructor;
 import com.alimuya.kevvy.reflect.KevvyConstructorReflect;
-import com.alimuya.kevvy.reflect.KevvyMethod;
 import com.alimuya.kevvy.reflect.exception.ConstructorReflectException;
 import com.alimuya.kevvy.reflect.exception.InvokeTargetException;
-import com.alimuya.kevvy.reflect.exception.MethodReflectException;
 import com.alimuya.kevvy.reflect.test.bean.TestConstructorBean;
 
 public class KevvyConstructorTest extends TestCase {
@@ -70,7 +68,7 @@ public class KevvyConstructorTest extends TestCase {
 	public void testInvokeExceptionInvoke() {
 		try {
 			KevvyConstructor<TestConstructorBean> constructor = constructorReflect.getConstructor(long.class);
-			TestConstructorBean bean = constructor.newInstance(234L);
+			constructor.newInstance(234L);
 			fail();
 		} catch (ConstructorReflectException e) {
 			fail();
@@ -84,7 +82,7 @@ public class KevvyConstructorTest extends TestCase {
 	public void testKevvyExceptionInvoke() {
 		try {
 			KevvyConstructor<TestConstructorBean> constructor = constructorReflect.getConstructor(long[].class,String[].class);
-			TestConstructorBean bean = constructor.newInstance(1);
+			constructor.newInstance(1);
 			fail();
 		} catch (ConstructorReflectException e) {
 			assertTrue(true);
