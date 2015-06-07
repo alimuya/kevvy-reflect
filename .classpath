@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="src" path="assistant"/>
 	<classpathentry kind="src" path="example"/>
 	<classpathentry kind="lib" path="build/lib/asm-5.0.4.jar"/>
 	<classpathentry kind="lib" path="build/lib/asm-tree-5.0.4.jar"/>
