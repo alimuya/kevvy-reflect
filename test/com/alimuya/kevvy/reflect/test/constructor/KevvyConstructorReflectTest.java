@@ -19,7 +19,7 @@ public class KevvyConstructorReflectTest extends TestCase {
 	@Before
 	protected void setUp() throws Exception {
 		super.setUp();
-		this.constructorReflect=KevvyConstructorReflect.createKevvyConstructor(TestConstructorBean.class);
+		this.constructorReflect=KevvyConstructorReflect.createConstructor(TestConstructorBean.class);
 	}
 
 	@Test
@@ -44,7 +44,7 @@ public class KevvyConstructorReflectTest extends TestCase {
 
 	@Test
 	public void testCreateKevvyConstructor() throws ConstructorReflectException {
-		KevvyConstructorReflect<TestConstructorBean> cr = KevvyConstructorReflect.createKevvyConstructor(TestConstructorBean.class);
+		KevvyConstructorReflect<TestConstructorBean> cr = KevvyConstructorReflect.createConstructor(TestConstructorBean.class);
 		assertNotNull(cr);
 	}
 

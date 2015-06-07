@@ -13,7 +13,7 @@ public class ConstructorAccessBenchmark extends Benchmark {
 		Object[] dontCompileMeAway = new Object[count];
 
 		Class<BenchmarkConstructorBean> type = BenchmarkConstructorBean.class;
-		KevvyConstructorReflect<BenchmarkConstructorBean> kevvyReflect = KevvyConstructorReflect.createKevvyConstructor(type);
+		KevvyConstructorReflect<BenchmarkConstructorBean> kevvyReflect = KevvyConstructorReflect.createConstructor(type);
 		KevvyConstructor<BenchmarkConstructorBean> kevvyNoParameter = kevvyReflect.getConstructor();
 		KevvyConstructor<BenchmarkConstructorBean> kevvyParameters = kevvyReflect.getConstructor(String.class, String.class,String.class,double.class,int.class);
 		Constructor<BenchmarkConstructorBean> javaNoParameter = type.getConstructor();

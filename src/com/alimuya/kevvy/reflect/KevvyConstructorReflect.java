@@ -60,7 +60,7 @@ public class KevvyConstructorReflect<T> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static<T> KevvyConstructorReflect<T> createKevvyConstructor(Class<T> claz) throws ConstructorReflectException{
+	public static<T> KevvyConstructorReflect<T> createConstructor(Class<T> claz) throws ConstructorReflectException{
 		if(claz==null || claz.isPrimitive()){
 			throw new IllegalArgumentException("argument claz==null || claz.isPrimitive()");
 		}

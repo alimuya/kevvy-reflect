@@ -20,7 +20,7 @@ public class KevvyConstructorTest extends TestCase {
 
 	@Before
 	protected void setUp() throws Exception {
-		this.constructorReflect=KevvyConstructorReflect.createKevvyConstructor(TestConstructorBean.class);
+		this.constructorReflect=KevvyConstructorReflect.createConstructor(TestConstructorBean.class);
 		super.setUp();
 	}
 

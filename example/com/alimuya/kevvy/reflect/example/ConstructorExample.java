@@ -13,7 +13,7 @@ import com.alimuya.kevvy.reflect.test.bean.TestConstructorBean;
 public class ConstructorExample {
 	
 	public static void main(String[] args) throws ConstructorReflectException, InvokeTargetException {
-		KevvyConstructorReflect<TestConstructorBean> kcr = KevvyConstructorReflect.createKevvyConstructor(TestConstructorBean.class);
+		KevvyConstructorReflect<TestConstructorBean> kcr = KevvyConstructorReflect.createConstructor(TestConstructorBean.class);
 		KevvyConstructor<TestConstructorBean> kc = kcr.getConstructor(String.class);
 		TestConstructorBean bean = kc.newInstance("slslsls");
 		if(bean!=null && bean instanceof TestConstructorBean){
