@@ -26,8 +26,7 @@ public class MethodClassBuilder implements Opcodes{
 	}
 	
 	private String createNewClassName(Method method){
-		String packageName = beanClass.getPackage().getName();
-		String className=packageName+"."+beanClass.getSimpleName()+"_autoMethod_"+method.getName()+"_"+id.getAndIncrement();
+		String className=beanClass.getName()+"_autoMethod_"+method.getName()+"_"+id.getAndIncrement();
 		return className;
 	}
 	

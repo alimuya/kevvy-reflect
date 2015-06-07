@@ -120,7 +120,7 @@ public class ConstructorBuilder implements Opcodes{
 	}
 	
 	private String createNewClassName(Class<?>[] pClasses) {
-		String className=beanClass.getCanonicalName()+"_autoConstructor_"+"_"+id.getAndIncrement();
+		String className=beanClass.getName()+"_autoConstructor_"+"_"+id.getAndIncrement();
 		return className;
 	}
 }

@@ -70,8 +70,7 @@ public class FieldClassBuilder {
 	}
 	
 	private String createNewClassName(Field field){
-		String packageName = beanClass.getPackage().getName();
-		String className=packageName+"."+beanClass.getSimpleName()+"_autofield_"+field.getName()+"_"+id.getAndIncrement();
+		String className=beanClass.getName()+"_autofield_"+field.getName()+"_"+id.getAndIncrement();
 		return className;
 	}
 }
