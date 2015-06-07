@@ -14,12 +14,11 @@ import org.junit.runners.MethodSorters;
 import com.alimuya.kevvy.reflect.KevvyField;
 import com.alimuya.kevvy.reflect.KevvyFieldReflect;
 import com.alimuya.kevvy.reflect.exception.FieldReflectException;
-import com.alimuya.kevvy.reflect.test.bean.TestFieldBean;
 
 @FixMethodOrder(MethodSorters.JVM)
 public abstract class AbstractKevvyFieldTest extends TestCase {
 	private KevvyFieldReflect fieldReflect;
-	protected Class<?> testClass = TestFieldBean.class;
+	protected Class<?> testClass;
 	protected Object bean;
 	private Map<Class<?>, Field> fieldMap = new HashMap<Class<?>, Field>();
 	
@@ -47,7 +46,9 @@ public abstract class AbstractKevvyFieldTest extends TestCase {
 		try {
 			Field field = fieldMap.get(Object.class);
 			KevvyField kfield = this.fieldReflect.getField(field.getName());
-			assertEquals(kfield.get(bean),field.get(bean));
+			Object ko = kfield.get(bean);
+			Object fo = field.get(bean);
+			assertEquals(ko,fo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("excption");

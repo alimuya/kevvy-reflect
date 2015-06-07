@@ -178,25 +178,6 @@ public final class AsmUtils extends ClassLoader implements Opcodes{
 		}
 	}
 	
-//	public static String getMethodArgsRetrunDescriptor(Class<?>[] argsClass,Class<?> returnClass){
-//		StringBuilder sb=new StringBuilder();
-//		sb.append('(');
-//		if(argsClass!=null && argsClass.length>0){
-//			for (int i = 0; i < argsClass.length; i++) {
-//				Class<?> argclaz = argsClass[i];
-//				sb.append(Type.getDescriptor(argclaz));
-//			}
-//		}
-//		sb.append(')');
-//		if(returnClass==null){
-//			sb.append(Type.getDescriptor(void.class));
-//		}else{
-//			sb.append(Type.getDescriptor(returnClass));
-//		}
-//		String methodDescriptor = sb.toString();
-//		return methodDescriptor;
-//	}
-	
 	public static String getMethodDesc(Class<?> returnClass, Class<?> ...argsClass){
 		StringBuilder sb=new StringBuilder();
 		if(argsClass==null || argsClass.length==0){
