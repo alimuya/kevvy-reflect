@@ -62,7 +62,7 @@ public class DirectField extends KevvyField{
 	//===============================================================================
 	
 	@Override
-	public void setObject(Object obj, Object value)
+	public void _setObject(Object obj, Object value)
 			throws FieldReflectException {
 		((FieldBean)obj).a=(String[])value;
 	}

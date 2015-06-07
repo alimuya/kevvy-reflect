@@ -58,7 +58,7 @@ class UnsafeGSMethodBuilder extends AbstractAsmBulder implements IGSMethodBuilde
 		this.createSetValueMethod("setChar", char.class);
 		this.createSetValueMethod("setShort", short.class);
 		this.createSetValueMethod("setByte", byte.class);
-		this.createSetValueMethod("setObject", Object.class);
+		this.createSetValueMethod("_setObject", Object.class);
 		this.createSetValueMethod("setLong", long.class);
 		this.createSetValueMethod("setFloat", float.class);
 		this.createSetValueMethod("setDouble", double.class);
@@ -77,7 +77,12 @@ class UnsafeGSMethodBuilder extends AbstractAsmBulder implements IGSMethodBuilde
 				mv.visitMaxs(3, 3);
 			}
 		}else{
-			String unsafeMethodName = "put"+methodName.substring(3);
+			String unsafeMethodName;
+			if(argClass==Object.class){
+				unsafeMethodName = "put"+methodName.substring(4);
+			}else{
+				unsafeMethodName = "put"+methodName.substring(3);
+			}
 			mv.visitFieldInsn(GETSTATIC, AsmUtils.toAsmCls(className), "unsafe", "Lsun/misc/Unsafe;");
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitLdcInsn(new Long(offset));

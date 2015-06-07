@@ -65,7 +65,7 @@ public class GSField extends KevvyField{
 	}
 
 	@Override
-	public void setObject(Object obj, Object value)
+	public void _setObject(Object obj, Object value)
 			throws FieldReflectException {
 		((TestGSettersFieldBean)obj).setA((String)value);
 	}

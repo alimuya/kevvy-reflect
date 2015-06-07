@@ -20,7 +20,16 @@ public abstract class KevvyField {
 	public abstract float getFloat(Object obj) throws FieldReflectException;
 	public abstract double getDouble(Object obj) throws FieldReflectException;
 	
-	public abstract void setObject(Object obj,Object value) throws FieldReflectException;
+	public void setObject(Object obj,Object value) throws FieldReflectException{
+		try {
+			_setObject(obj, value);
+		} catch (FieldReflectException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new FieldReflectException(e);
+		}
+	}
+	
 	public abstract void setByte(Object obj,byte value) throws FieldReflectException;
 	public abstract void setShort(Object obj,short value) throws FieldReflectException;
 	public abstract void setChar(Object obj,char value) throws FieldReflectException;
@@ -29,6 +38,8 @@ public abstract class KevvyField {
 	public abstract void setFloat(Object obj,float value) throws FieldReflectException;
 	public abstract void setDouble(Object obj,double value) throws FieldReflectException;
 	public abstract void setBoolean(Object obj,boolean value) throws FieldReflectException;
+	
+	protected abstract void _setObject(Object obj,Object value) throws FieldReflectException;
 	
 	public Field getOriginalFeld() {
 		return originalFeld;

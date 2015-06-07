@@ -43,7 +43,7 @@ class DirectGSMethodBuilder extends AbstractAsmBulder implements IGSMethodBuilde
 		this.createSetValueMethod(cw, clazz, "setChar", char.class, field);
 		this.createSetValueMethod(cw, clazz, "setShort", short.class, field);
 		this.createSetValueMethod(cw, clazz, "setByte", byte.class, field);
-		this.createSetValueMethod(cw, clazz, "setObject", Object.class, field);
+		this.createSetValueMethod(cw, clazz, "_setObject", Object.class, field);
 		this.createSetValueMethod(cw, clazz, "setLong", long.class, field);
 		this.createSetValueMethod(cw, clazz, "setFloat", float.class, field);
 		this.createSetValueMethod(cw, clazz, "setDouble", double.class, field);

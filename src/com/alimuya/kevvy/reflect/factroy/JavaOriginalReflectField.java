@@ -188,4 +188,10 @@ public class JavaOriginalReflectField extends KevvyField{
 		this.originalFeld.setAccessible(true);
 	}
 
+	@Override
+	protected void _setObject(Object obj, Object value)
+			throws FieldReflectException {
+		
+	}
+
 }

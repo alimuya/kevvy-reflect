@@ -91,7 +91,7 @@ class AnalyzerGSMethodBuilder extends AbstractAsmBulder implements IGSMethodBuil
 		this.createSetValueMethod("setChar", char.class);
 		this.createSetValueMethod("setShort", short.class);
 		this.createSetValueMethod("setByte", byte.class);
-		this.createSetValueMethod("setObject", Object.class);
+		this.createSetValueMethod("_setObject", Object.class);
 		this.createSetValueMethod("setLong", long.class);
 		this.createSetValueMethod("setFloat", float.class);
 		this.createSetValueMethod("setDouble", double.class);
