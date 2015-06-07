@@ -5,21 +5,14 @@ faster-reflect, just alpha version
 
 
 ## Performance
-
+![image](https://github.com/alimuya/kevvy-reflect/raw/master/build/res/benchmark/field/jdk7_field_all.png)
+![image](https://github.com/alimuya/kevvy-reflect/raw/master/build/res/benchmark/method/jdk7_method_all.png)
+![image](https://github.com/alimuya/kevvy-reflect/raw/master/build/res/benchmark/constructor/jdk7_constructor_all.png)
 
 
 generated on Oracle's Java 7u21, server VM.
 
 ## Usage
-
-Method reflection :
-
-```java
-TestClass bean=new TestClass();
-KevvyMethodReflect methodReflect = KevvyMethodReflect.createMethodReflect(TestClass.class);
-KevvyMethod method = methodReflect.getMethod("someMethod", String.class);
-method.invoke(bean, "test_str");
-```
 
 Field reflection :
 
@@ -29,6 +22,15 @@ KevvyFieldReflect fieldReflect = KevvyFieldReflect.createFieldReflect(TestClass.
 KevvyField field = fieldReflect.getField("someField");
 field.setObject(bean, "test_str"); //set value
 field.get(bean);   //get value
+```
+
+Method reflection :
+
+```java
+TestClass bean=new TestClass();
+KevvyMethodReflect methodReflect = KevvyMethodReflect.createMethodReflect(TestClass.class);
+KevvyMethod method = methodReflect.getMethod("someMethod", String.class);
+method.invoke(bean, "test_str");
 ```
 
 Constructor reflection :
