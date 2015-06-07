@@ -1,9 +1,7 @@
 package com.alimuya.kevvy.reflect;
 
 import java.lang.reflect.Constructor;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.alimuya.kevvy.reflect.exception.ConstructorReflectException;
@@ -18,6 +16,7 @@ import com.alimuya.kevvy.reflect.factroy.UnsafeFactory;
 public class KevvyConstructorReflect<T> {
 	private static Map<Class<?>, KevvyConstructorReflect<?>> cache=new HashMap<Class<?>,KevvyConstructorReflect<?>>();
 	private KevvyConstructor<T>[] array=null;
+	private Map<String,KevvyConstructor<T>> map=new HashMap<String,KevvyConstructor<T>>(); 
 	
 	@SuppressWarnings("unchecked")
 	private KevvyConstructorReflect(Class<T> claz) throws ConstructorReflectException{
@@ -31,10 +30,22 @@ public class KevvyConstructorReflect<T> {
 				KevvyConstructor<T> kevvyConstructor = builder.build(constructor);
 				kevvyConstructor.setOriginalConstructor(constructor);
 				array[i]=kevvyConstructor;
+				map.put(getClassesKey(constructor.getParameterTypes()), kevvyConstructor);
 			}
 		} catch (Exception e) {
 			throw new ConstructorReflectException(e);
 		}
+	}
+	
+	
+	private String getClassesKey(Class<?>[] classes){
+		StringBuilder sb=new StringBuilder();
+		int length=classes.length;
+		for (int i = 0; i < length; i++) {
+			sb.append(classes[i].getName());
+			sb.append("|");
+		}
+		return sb.toString();
 	}
 	
 	public KevvyConstructor<T>[] getConstructors(){
@@ -42,18 +53,10 @@ public class KevvyConstructorReflect<T> {
 	}
 	
 	public KevvyConstructor<T> getConstructor(Class<?> ...args){
-		int length=array.length;
 		if(args==null){
-			args=new Class<?>[0];
+			throw new IllegalArgumentException("args ==null");
 		}
-		for (int i = 0; i < length; i++) {
-			KevvyConstructor<T> kevvyConstructor= array[i];
-			Class<?>[] types = kevvyConstructor.getOriginalConstructor().getParameterTypes();
-			if(Arrays.equals(types, args)){
-				return kevvyConstructor;
-			}
-		}
-		return null;
+		return map.get(getClassesKey(args));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -69,10 +72,13 @@ public class KevvyConstructorReflect<T> {
 		return reflect;
 	}
 	
-//	public
-	
 	@SuppressWarnings("unchecked")
-	public static <T>T newIstanceWithoutConstructor(Class<T> claz) throws InstantiationException{
-		return (T) UnsafeFactory.getUnsafe().allocateInstance(claz);
+	public static <T>T newIstanceWithoutConstructor(Class<T> claz) throws ConstructorReflectException{
+		try {
+			return (T) UnsafeFactory.getUnsafe().allocateInstance(claz);
+		} catch (Throwable e) {
+			throw new ConstructorReflectException(e);
+		}
 	} 
+	
 }

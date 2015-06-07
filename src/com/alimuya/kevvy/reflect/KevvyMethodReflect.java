@@ -1,10 +1,7 @@
 package com.alimuya.kevvy.reflect;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.alimuya.kevvy.reflect.exception.MethodReflectException;
@@ -16,7 +13,7 @@ import com.alimuya.kevvy.reflect.factroy.MethodClassBuilder;
  */
 public class KevvyMethodReflect {
 	private static Map<Class<?>, KevvyMethodReflect> cache=new HashMap<Class<?>, KevvyMethodReflect>();
-	private Map<String,List<KevvyMethod>> map=new HashMap<String,List<KevvyMethod>>();
+	private Map<String,KevvyMethod> map=new HashMap<String,KevvyMethod>();
 	private KevvyMethod[] array=null;
 	
 	private KevvyMethodReflect (Class<?> claz) throws MethodReflectException{
@@ -32,15 +29,9 @@ public class KevvyMethodReflect {
 				}
 				KevvyMethod kevvyMethod = builder.build(method);
 				kevvyMethod.setOriginalMethod(method);
-				String name = method.getName();
-				List<KevvyMethod> sameNameMethods = map.get(name);
-				if(sameNameMethods==null){
-					sameNameMethods=new ArrayList<KevvyMethod>();
-					map.put(name, sameNameMethods);
-				}
-				sameNameMethods.add(kevvyMethod);
+				String methodName = method.getName();
 				array[i]=kevvyMethod;
-				map.put(name,sameNameMethods);
+				map.put(getMethodKey(methodName, method.getParameterTypes()),kevvyMethod);
 			}
 		} catch (Exception e) {
 			throw new MethodReflectException(e);
@@ -58,28 +49,28 @@ public class KevvyMethodReflect {
 		}
 		return reflect;
 	}
-
+	
+	private String getMethodKey(String methodName,Class<?>[] classes){
+		StringBuilder sb=new StringBuilder();
+		sb.append(methodName);
+		sb.append('#');
+		int length=classes.length;
+		for (int i = 0; i < length; i++) {
+			sb.append(classes[i].getName());
+			sb.append("|");
+		}
+		return sb.toString();
+	}
+	
 	public KevvyMethod[] getMethods(){
 		return array.clone();
 	}
 	
 	public KevvyMethod getMethod(String methodName,Class<?> ... argClasses){
-		if(argClasses==null){
-			argClasses=new Class<?>[0];
+		if(methodName ==null || argClasses==null){
+			throw new IllegalArgumentException("methodName ==null or argClasses ==null");
 		}
-		List<KevvyMethod> methods = map.get(methodName);
-		KevvyMethod result=null;
-		if(methods!=null){
-			int length=methods.size();
-			for (int i = 0; i < length; i++) {
-				KevvyMethod method = methods.get(i);
-				Class<?>[] types = method.getOriginalMethod().getParameterTypes();
-				if(Arrays.equals(argClasses, types)){
-					result=method;
-					break;
-				}
-			}
-		}
-		return result;
+		String key=getMethodKey(methodName, argClasses);
+		return map.get(key);
 	}
 }

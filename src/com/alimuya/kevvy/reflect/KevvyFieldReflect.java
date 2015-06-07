@@ -51,8 +51,11 @@ public class KevvyFieldReflect {
 		return array.clone();
 	}
 	
-	public KevvyField getField(String name){
-		return map.get(name);
+	public KevvyField getField(String fieldName){
+		if(fieldName==null){
+			throw new IllegalArgumentException("field name ==null");
+		}
+		return map.get(fieldName);
 	}
 	
 }
