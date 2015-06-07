@@ -68,7 +68,8 @@ class UnsafeGSMethodBuilder extends AbstractAsmBulder implements IGSMethodBuilde
 	
 	private void createSetValueMethod(String methodName,Class<?> argClass){
 		MethodVisitor mv = this.createSetMethodVisitor(cw,methodName, argClass);
-		if(AsmUtils.canThrowException(argClass,field.getType())){
+		Class<?> fieldClass = field.getType();
+		if(AsmUtils.canThrowException(argClass,fieldClass)){
 			this.createThrowException(mv);
 			if(AsmUtils.needMoreStack(argClass)){
 				mv.visitMaxs(3, 4);
@@ -82,6 +83,9 @@ class UnsafeGSMethodBuilder extends AbstractAsmBulder implements IGSMethodBuilde
 			mv.visitLdcInsn(new Long(offset));
 			mv.visitVarInsn(AsmUtils.getLoadTag(argClass), 2);
 			String unsafeDescriptor=AsmUtils.getMethodDesc(void.class,Object.class,long.class,argClass);
+			if(argClass==Object.class && fieldClass!=argClass){
+				mv.visitTypeInsn(CHECKCAST, AsmUtils.toAsmCls(fieldClass));
+			}
 			mv.visitMethodInsn(INVOKEVIRTUAL, "sun/misc/Unsafe", unsafeMethodName, unsafeDescriptor, false);
 			mv.visitInsn(RETURN);
 			if(AsmUtils.needMoreStack(argClass)){
