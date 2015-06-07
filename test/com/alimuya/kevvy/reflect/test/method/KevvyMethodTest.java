@@ -109,6 +109,20 @@ public class KevvyMethodTest extends TestCase {
 		}
 	}
 	
+	
+	@Test
+	public void testNullArgsInvoke() {
+		try {
+			KevvyMethod method = kr.getMethod("test6",String [].class,  int.class);
+			Method javaMethod = TestMethodInvokeBean.class.getMethod("test6",String [].class,  int.class);
+			Object javaResult=javaMethod.invoke(bean,null,23);
+			Object kevvyResult=method.invoke(bean,null,23);
+			assertTrue(Arrays.equals((int[])javaResult,(int[]) kevvyResult));
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
 	@Test
 	public void testInvokeExceptionInvoke() {
 		try {

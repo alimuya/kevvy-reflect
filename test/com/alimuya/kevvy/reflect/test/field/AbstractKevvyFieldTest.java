@@ -179,7 +179,22 @@ public abstract class AbstractKevvyFieldTest extends TestCase {
 			fail("excption");
 		}
 	}
-
+	
+	@Test
+	public void testSetNullObject() {
+		try {
+			Field field = fieldMap.get(Object.class);
+			KevvyField kfield = this.fieldReflect.getField(field.getName());
+			Object sss = null;
+			kfield.setObject(bean, sss);
+			Object newOne = field.get(bean);
+			assertEquals(newOne,sss);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("excption");
+		}
+	}
+	
 	@Test
 	public void testSetByte() {
 		try {
