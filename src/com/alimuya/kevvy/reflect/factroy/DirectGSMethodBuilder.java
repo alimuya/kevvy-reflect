@@ -81,17 +81,17 @@ class DirectGSMethodBuilder extends AbstractAsmBulder implements IGSMethodBuilde
 	}
 	
 	
-	private void createGetValueMethod(ClassWriter cw,Class<?> beanClaz,String methodName,Class<?> returnClass,Field filed){
+	private void createGetValueMethod(ClassWriter cw,Class<?> beanClaz,String methodName,Class<?> returnClass,Field field){
 		MethodVisitor mv = this.createGetMethodVisitor(cw, methodName, returnClass);
 		String asmClassName=AsmUtils.toAsmCls(beanClaz);
-		Class<?> fieldClass=filed.getType();
+		Class<?> fieldClass=field.getType();
 		if(AsmUtils.canThrowException(returnClass, fieldClass)){
 			this.createThrowException(mv);
 			mv.visitMaxs(3,2);
 		}else{
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, asmClassName);
-			mv.visitFieldInsn(GETFIELD, asmClassName, filed.getName(), Type.getDescriptor(fieldClass));
+			mv.visitFieldInsn(GETFIELD, asmClassName, field.getName(), Type.getDescriptor(fieldClass));
 			mv.visitInsn(AsmUtils.getReturnTag(returnClass));
 			if(AsmUtils.needMoreStack(returnClass)){
 				mv.visitMaxs(2, 2);
