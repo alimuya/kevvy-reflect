@@ -41,7 +41,10 @@ public class MethodClassBuilder implements Opcodes{
 			byte[] bytes = classWriter.toByteArray();
 			result = AsmUtils.asmNewInstance(KevvyMethod.class, newClassName, bytes);
 		}else{
-			result=new JavaOriginalReflectMethod();
+			result=MethodAccessorReflectMethod.getMethodAccessorReflectMethod(method);
+			if(result==null){
+				result=new JavaOriginalReflectMethod();
+			}
 		}
 		return result;
 	}

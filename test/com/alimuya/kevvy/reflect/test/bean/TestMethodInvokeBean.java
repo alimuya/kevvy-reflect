@@ -43,4 +43,21 @@ public class TestMethodInvokeBean {
 	public int[] test7(String [] p1,  int p2) throws IOException{
 		throw new IOException();
 	}
+	
+	
+	@SuppressWarnings("unused")
+	private void test8(){
+		
+	}
+	
+	@SuppressWarnings("unused")
+	private int test9(long p1, String p2){
+		return 2;
+	}
+	
+	
+	@SuppressWarnings("unused")
+	private static int test10(long p1, String p2){
+		return 2;
+	}
 }

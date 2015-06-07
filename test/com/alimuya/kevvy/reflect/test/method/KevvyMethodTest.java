@@ -150,4 +150,39 @@ public class KevvyMethodTest extends TestCase {
 		}
 	}
 	
+	
+
+	@Test
+	public void testPrivate8() {
+		try {
+			KevvyMethod method = kr.getMethod("test8");
+			method.invoke(bean);
+			assertTrue(true);
+		} catch (MethodReflectException e) {
+			fail();
+		} catch (InvokeTargetException e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testPrivate9() throws Exception {
+		KevvyMethod method = kr.getMethod("test9",long.class,String.class);
+		Method javaMethod = TestMethodInvokeBean.class.getDeclaredMethod("test9",long.class,String.class);
+		javaMethod.setAccessible(true);
+		Object kevvyResult = method.invoke(bean,23L,"abc");
+		Object javaResult=javaMethod.invoke(bean,23L,"abc");
+		assertEquals(kevvyResult, javaResult);
+	}
+	
+	@Test
+	public void testPrivatestatic10() throws Exception {
+		KevvyMethod method = kr.getMethod("test10",long.class,String.class);
+		Method javaMethod = TestMethodInvokeBean.class.getDeclaredMethod("test10",long.class,String.class);
+		javaMethod.setAccessible(true);
+		Object kevvyResult = method.invoke(bean,23L,"abc");
+		Object javaResult=javaMethod.invoke(bean,23L,"abc");
+		assertEquals(kevvyResult, javaResult);
+	}
 }
+

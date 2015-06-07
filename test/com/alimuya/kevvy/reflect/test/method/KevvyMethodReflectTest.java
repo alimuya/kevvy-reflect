@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.alimuya.kevvy.reflect.KevvyMethod;
 import com.alimuya.kevvy.reflect.KevvyMethodReflect;
 import com.alimuya.kevvy.reflect.factroy.JavaOriginalReflectMethod;
+import com.alimuya.kevvy.reflect.factroy.MethodAccessorReflectMethod;
 import com.alimuya.kevvy.reflect.test.bean.TestMethodInvokeBean;
 
 public class KevvyMethodReflectTest extends TestCase{
@@ -49,7 +50,7 @@ public class KevvyMethodReflectTest extends TestCase{
 			boolean  isPublic=(javaMethod.getModifiers()& Modifier.PUBLIC)==Modifier.PUBLIC;
 			boolean notStatic= (javaMethod.getModifiers()& Modifier.STATIC)!=Modifier.STATIC;
 			if(!(isPublic && notStatic)){
-				boolean tmp=(method instanceof JavaOriginalReflectMethod);
+				boolean tmp=(method instanceof JavaOriginalReflectMethod || method instanceof MethodAccessorReflectMethod);
 				assertTrue(tmp);
 			}
 		}

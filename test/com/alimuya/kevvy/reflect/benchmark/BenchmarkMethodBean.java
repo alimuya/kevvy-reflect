@@ -14,4 +14,16 @@ public class BenchmarkMethodBean{
 		return "sssss";
 	}
 	
+	private String privateReturnNoParameter(){
+		return "sssss";
+	}
+	
+	private void privateVoidNoParameter(){}
+	
+	private void privateVoidParameters (String p0,String p1, String p2, double p3, int p4){}
+	
+	public String privateReturnParameters(String p0,String p1, String p2, double p3, int p4){
+		return "sssss";
+	}
+	
 }

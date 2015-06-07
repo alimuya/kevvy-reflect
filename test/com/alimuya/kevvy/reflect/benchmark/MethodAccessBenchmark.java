@@ -23,27 +23,49 @@ public class MethodAccessBenchmark extends Benchmark {
 		KevvyMethod kevvyReturnNoParameter = kv.getMethod("returnNoParameter");
 		KevvyMethod kevvyReturnParameters = kv.getMethod("returnParameters",String.class,String.class,String.class,double.class,int.class);
 		
+		
+		KevvyMethod kevvyPrivateVoidNoParameter = kv.getMethod("privateVoidNoParameter");
+		KevvyMethod kevvyPrivateVoidParameters = kv.getMethod("privateVoidParameters",String.class,String.class,String.class,double.class,int.class);
+		KevvyMethod kevvyPrivateReturnNoParameter = kv.getMethod("privateReturnNoParameter");
+		KevvyMethod kevvyPrivateReturnParameters = kv.getMethod("privateReturnParameters",String.class,String.class,String.class,double.class,int.class);
+		
 		for (int i = 0; i < 100; i++) {
+			//kevvy public 
 			for (int ii = 0; ii < count; ii++){
 				dontCompileMeAway[ii] = kevvyVoidNoParameter.invoke(bean);
-			}
-			for (int ii = 0; ii < count; ii++){
-				dontCompileMeAway[ii] = javaVoidNoParameter.invoke(bean);
 			}
 			for (int ii = 0; ii < count; ii++){
 				dontCompileMeAway[ii] = kevvyVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
 			}
 			for (int ii = 0; ii < count; ii++){
-				dontCompileMeAway[ii] = javaVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+				dontCompileMeAway[ii] = kevvyReturnNoParameter.invoke(bean);
+			}
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			//kevvy private
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyVoidNoParameter.invoke(bean);
+			}
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
 			}
 			for (int ii = 0; ii < count; ii++){
 				dontCompileMeAway[ii] = kevvyReturnNoParameter.invoke(bean);
 			}
 			for (int ii = 0; ii < count; ii++){
-				dontCompileMeAway[ii] = javaReturnNoParameter.invoke(bean);
+				dontCompileMeAway[ii] = kevvyReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			
+			// java reflect
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = javaVoidNoParameter.invoke(bean);
 			}
 			for (int ii = 0; ii < count; ii++){
-				dontCompileMeAway[ii] = kevvyReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+				dontCompileMeAway[ii] = javaVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = javaReturnNoParameter.invoke(bean);
 			}
 			for (int ii = 0; ii < count; ii++){
 				dontCompileMeAway[ii] = javaReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
@@ -57,6 +79,13 @@ public class MethodAccessBenchmark extends Benchmark {
 				dontCompileMeAway[ii] = kevvyVoidNoParameter.invoke(bean);
 			}
 			end("Kevvy-Void-NoParameter");
+		}
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyPrivateVoidNoParameter.invoke(bean);
+			}
+			end("Kevvy-Private-Void-NoParameter");
 		}
 		for (int i = 0; i < 100; i++) {
 			start();
@@ -76,6 +105,13 @@ public class MethodAccessBenchmark extends Benchmark {
 		for (int i = 0; i < 100; i++) {
 			start();
 			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyPrivateVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			end("Kevvy-Private-Void-Parameters");
+		}
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++){
 				dontCompileMeAway[ii] = javaVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
 			}
 			end("Java-Void-Parameters");
@@ -91,6 +127,13 @@ public class MethodAccessBenchmark extends Benchmark {
 		for (int i = 0; i < 100; i++) {
 			start();
 			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyPrivateReturnNoParameter.invoke(bean);
+			}
+			end("Kevvy-Private-Return-NoParameter");
+		}
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++){
 				dontCompileMeAway[ii] = javaReturnNoParameter.invoke(bean);
 			}
 			end("Java-Return-NoParameter");
@@ -102,6 +145,13 @@ public class MethodAccessBenchmark extends Benchmark {
 				dontCompileMeAway[ii] = kevvyReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
 			}
 			end("Kevvy-Return-Parameters");
+		}
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyPrivateReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			end("Kevvy-Private-Return-Parameters");
 		}
 		for (int i = 0; i < 100; i++) {
 			start();
