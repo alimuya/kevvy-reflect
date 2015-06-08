@@ -13,7 +13,7 @@ public class FieldAccessBenchmark extends Benchmark {
 		Object[] dontCompileMeAway = new Object[count];
 		BenchmarkFieldBean testFieldBean=new BenchmarkFieldBean();
 		KevvyField kevvyPublicField = KevvyFieldReflect.createFieldReflect(BenchmarkFieldBean.class).getField("publicField");
-		KevvyField kevvyMixedField = KevvyFieldReflect.createFieldReflect(BenchmarkFieldBean.class).getField("mixedField");
+		KevvyField kevvyGSField = KevvyFieldReflect.createFieldReflect(BenchmarkFieldBean.class).getField("gsField");
 		KevvyField kevvyPrivateField = KevvyFieldReflect.createFieldReflect(BenchmarkFieldBean.class).getField("privateField");
 		Field javaField = BenchmarkFieldBean.class.getDeclaredField("publicField");
 		javaField.setAccessible(true);
@@ -28,8 +28,8 @@ public class FieldAccessBenchmark extends Benchmark {
 				dontCompileMeAway[ii] = kevvyPublicField.get(testFieldBean);
 			}
 			for (int ii = 0; ii < count; ii++) {
-				kevvyMixedField.setObject(testFieldBean, testString);
-				dontCompileMeAway[ii] = kevvyMixedField.get(testFieldBean);
+				kevvyGSField.setObject(testFieldBean, testString);
+				dontCompileMeAway[ii] = kevvyGSField.get(testFieldBean);
 			}
 			for (int ii = 0; ii < count; ii++) {
 				kevvyPrivateField.setObject(testFieldBean, testString);
@@ -47,7 +47,7 @@ public class FieldAccessBenchmark extends Benchmark {
 				testFieldBean.setGsField(testString);
 				dontCompileMeAway[ii] = testFieldBean.getGsField();
 			}
-			end("Java-Getter/Setter");
+			end("Java- Call Getter Setter ");
 		}
 		for (int i = 0; i < 100; i++) {
 			start();
@@ -55,26 +55,25 @@ public class FieldAccessBenchmark extends Benchmark {
 				kevvyPublicField.setObject(testFieldBean, testString);
 				dontCompileMeAway[ii] = kevvyPublicField.get(testFieldBean);
 			}
-			end("Kevvy-Public-Field");
+			end("Kevvy-Not Private Field");
 		}
-		
 		
 		for (int i = 0; i < 100; i++) {
 			start();
 			for (int ii = 0; ii < count; ii++) {
-				kevvyMixedField.setObject(testFieldBean, testString);
-				dontCompileMeAway[ii] = kevvyMixedField.get(testFieldBean);
+				kevvyGSField.setObject(testFieldBean, testString);
+				dontCompileMeAway[ii] = kevvyGSField.get(testFieldBean);
 			}
-			end("Kevvy-Mixed-Field");
+			end("Kevvy-Bean's Field");
 		}
-		
+//		
 		for (int i = 0; i < 100; i++) {
 			start();
 			for (int ii = 0; ii < count; ii++) {
 				kevvyPrivateField.setObject(testFieldBean, testString);
 				dontCompileMeAway[ii] = kevvyPrivateField.get(testFieldBean);
 			}
-			end("Kevvy-Private-Field");
+			end("Kevvy-Private Field");
 		}
 		for (int i = 0; i < 100; i++) {
 			start();
@@ -82,10 +81,10 @@ public class FieldAccessBenchmark extends Benchmark {
 				javaField.set(testFieldBean, testString);
 				dontCompileMeAway[ii] = javaField.get(testFieldBean);
 			}
-			end("Java-Reflect");
+			end("Java-Reflect Field");
 		}
 
-		chart("Kevvy Field Set/Get Benchmark");
+		chart("Kevvy Field Reflect Benchmark");
 	}
 
 	public static void main (String[] args) throws Exception {
