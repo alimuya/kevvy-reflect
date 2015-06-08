@@ -42,10 +42,13 @@ public class KevvyMethodReflect {
 		if(claz==null || claz.isPrimitive()){
 			throw new IllegalArgumentException("argument claz==null || claz.isPrimitive()");
 		}
-		KevvyMethodReflect reflect = cache.get(claz);
-		if(reflect==null){
-			reflect=new KevvyMethodReflect(claz);
-			cache.put(claz, reflect);
+		KevvyMethodReflect reflect;
+		synchronized (cache) {
+			reflect = cache.get(claz);
+			if(reflect==null){
+				reflect=new KevvyMethodReflect(claz);
+				cache.put(claz, reflect);
+			}
 		}
 		return reflect;
 	}

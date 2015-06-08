@@ -64,10 +64,13 @@ public class KevvyConstructorReflect<T> {
 		if(claz==null || claz.isPrimitive()){
 			throw new IllegalArgumentException("argument claz==null || claz.isPrimitive()");
 		}
-		KevvyConstructorReflect<T> reflect = (KevvyConstructorReflect<T>) cache.get(claz);
-		if(reflect==null){
-			reflect=new KevvyConstructorReflect<T>(claz);
-			cache.put(claz, reflect);
+		KevvyConstructorReflect<T> reflect;
+		synchronized (cache) {
+			reflect = (KevvyConstructorReflect<T>) cache.get(claz);
+			if(reflect==null){
+				reflect=new KevvyConstructorReflect<T>(claz);
+				cache.put(claz, reflect);
+			}
 		}
 		return reflect;
 	}

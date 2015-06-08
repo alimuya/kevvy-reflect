@@ -38,10 +38,13 @@ public class KevvyFieldReflect {
 		if(claz==null || claz.isPrimitive()){
 			throw new IllegalArgumentException("argument claz==null || claz.isPrimitive()");
 		}
-		KevvyFieldReflect reflect = cache.get(claz);
-		if(reflect==null){
-			reflect=new KevvyFieldReflect(claz);
-			cache.put(claz, reflect);
+		KevvyFieldReflect reflect;
+		synchronized (cache) {
+			reflect = cache.get(claz);
+			if(reflect==null){
+				reflect=new KevvyFieldReflect(claz);
+				cache.put(claz, reflect);
+			}
 		}
 		return reflect;
 	}
