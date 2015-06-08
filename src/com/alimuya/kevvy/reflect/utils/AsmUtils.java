@@ -1,6 +1,5 @@
 package com.alimuya.kevvy.reflect.utils;
 
-import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.objectweb.asm.ClassWriter;
@@ -8,29 +7,14 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import sun.misc.Unsafe;
+
 /**
  * @author ov_alimuya
  *
  */
 public final class AsmUtils extends ClassLoader implements Opcodes{
 	private static AtomicInteger id=new AtomicInteger(0);
-	private static Method classLoaderMethod;
-//	private static class AsmClassLoader extends ClassLoader {
-//		public Class<?> selfDefineClass(String className,byte[] bytes){
-//			return this.defineClass(className, bytes, 0, bytes.length);
-//		}
-//		
-//	};
-	
-	static{
-		try {
-			classLoaderMethod=ClassLoader.class.getDeclaredMethod("defineClass", String.class,byte[].class,int.class,int.class);
-			classLoaderMethod.setAccessible(true);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-	}
 	
 	public static  int getArrayIndexIConstOpcode(int index){
 		switch (index) {
@@ -204,8 +188,8 @@ public final class AsmUtils extends ClassLoader implements Opcodes{
 	@SuppressWarnings("unchecked")
 	public static<T> T asmNewInstance(Class<?> beanClass,Class<T> superClaz,String className,byte[] bytes) throws Exception{
 		try {
-//			Class<T> newClass = (Class<T>)classLoader.selfDefineClass(className, bytes);
-			Class<T> newClass = (Class<T>)classLoaderMethod.invoke(beanClass.getClassLoader(), className, bytes, 0, bytes.length);
+			Unsafe unsafe = UnsafeFactory.getUnsafe();
+			Class<T> newClass = (Class<T>)unsafe.defineClass(className, bytes, 0, bytes.length, beanClass.getClassLoader(), beanClass.getProtectionDomain());
 			return  (T) newClass.newInstance();
 			
 		} catch (Exception e) {
