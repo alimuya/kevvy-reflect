@@ -1,46 +1,52 @@
-package com.alimuya.kevvy.reflect.factroy;
+package com.alimuya.kevvy.reflect.constructor;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.Member;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
+import com.alimuya.kevvy.reflect.IReflectObjectBuilder;
 import com.alimuya.kevvy.reflect.KevvyConstructor;
 import com.alimuya.kevvy.reflect.exception.ConstructorReflectException;
 import com.alimuya.kevvy.reflect.exception.InvokeTargetException;
+import com.alimuya.kevvy.reflect.utils.AsmUtils;
+import com.alimuya.kevvy.reflect.utils.ReflectUtils;
 import com.sun.xml.internal.ws.org.objectweb.asm.Type;
 
 /**
  * @author ov_alimuya
  *
  */
-public class ConstructorBuilder implements Opcodes{
+public class DirectConstructorAsmBuilder implements Opcodes,IReflectObjectBuilder<KevvyConstructor<?>>{
 	private Class<?> beanClass;
 	private static AtomicInteger id=new AtomicInteger(0);
-	public ConstructorBuilder (Class<?> claz) {
-		this.beanClass=claz;
-	}
 	
-	@SuppressWarnings("unchecked")
-	public <T> KevvyConstructor<T> build(Constructor<T> constructor) throws Exception{
-		if((constructor.getModifiers() & Modifier.PUBLIC)!=Modifier.PUBLIC){
-			return new JavaOriginalReflectConstructor<T>();
-		}
+	@Override
+	public boolean isSuitable(Member member) {
+		return ReflectUtils.isNotPrivate(member) && !ReflectUtils.isStatic(member);
+	}
+
+	@Override
+	public KevvyConstructor<?> build(Class<?> beanClass, Member member)
+			throws Exception {
+		this.beanClass=beanClass;
+		Constructor<?> constructor=(Constructor<?>)member;
 		Class<?>[] pClasses = constructor.getParameterTypes();
 		String newClassName=this.createNewClassName(pClasses);
-		ClassWriter classWriter = AsmClassBuilder.build(newClassName,KevvyConstructor.class,getSignature());
+		ClassWriter classWriter = AsmUtils.buildClass(newClassName,KevvyConstructor.class,getSignature());
 		String beanClassAsmName = AsmUtils.toAsmCls(beanClass);
 		String methodName="_newInstance";
 		this.createMethod(classWriter, methodName, beanClassAsmName,pClasses);
 		this.createBridgeMethod(classWriter, methodName, newClassName);
 		classWriter.visitEnd();
 		byte[] bytes = classWriter.toByteArray();
-		KevvyConstructor<T> result = AsmUtils.asmNewInstance(KevvyConstructor.class, newClassName, bytes);
+		KevvyConstructor<?> result = AsmUtils.asmNewInstance(beanClass,KevvyConstructor.class, newClassName, bytes);
 		return result;
 	}
+	
 
 	private void createMethod(ClassWriter classWriter,String methodName,String beanClassAsmName,Class<?>[] argsClasses){
 		MethodVisitor mv = classWriter.visitMethod(ACC_PROTECTED + ACC_VARARGS, methodName, 

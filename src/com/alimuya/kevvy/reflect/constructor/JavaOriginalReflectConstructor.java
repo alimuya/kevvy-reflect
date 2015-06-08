@@ -1,4 +1,4 @@
-package com.alimuya.kevvy.reflect.factroy;
+package com.alimuya.kevvy.reflect.constructor;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -16,7 +16,7 @@ public class JavaOriginalReflectConstructor<T> extends KevvyConstructor<T>{
 	@Override
 	protected T _newInstance(Object... args) throws ConstructorReflectException, InvokeTargetException {
 		try {
-			return this.originalConstructor.newInstance(args);
+			return this.original.newInstance(args);
 		} catch (InstantiationException e) {
 			throw new ConstructorReflectException(e);
 		} catch (IllegalAccessException e) {

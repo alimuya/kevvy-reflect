@@ -1,7 +1,7 @@
-package com.alimuya.kevvy.reflect.factroy;
+package com.alimuya.kevvy.reflect.method;
 
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.objectweb.asm.ClassWriter;
@@ -9,48 +9,45 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import com.alimuya.kevvy.reflect.IReflectObjectBuilder;
 import com.alimuya.kevvy.reflect.KevvyMethod;
 import com.alimuya.kevvy.reflect.exception.InvokeTargetException;
 import com.alimuya.kevvy.reflect.exception.MethodReflectException;
+import com.alimuya.kevvy.reflect.utils.AsmUtils;
+import com.alimuya.kevvy.reflect.utils.ReflectUtils;
 
 /**
  * @author ov_alimuya
  *
  */
-public class MethodClassBuilder implements Opcodes{
+class DirectMethodAsmBuilder implements Opcodes,IReflectObjectBuilder<KevvyMethod>{
 	private Class<?> beanClass;
 	private static AtomicInteger id=new AtomicInteger(0);
-	
-	public MethodClassBuilder (Class<?> beanClass){
-		this.beanClass=beanClass;
-	}
 	
 	private String createNewClassName(Method method){
 		String className=beanClass.getName()+"_autoMethod_"+method.getName()+"_"+id.getAndIncrement();
 		return className;
 	}
 	
-	
-	public KevvyMethod build(Method method) throws Exception{
-		KevvyMethod result;
-		if(!this.isStaticMethod(method) && isPublicMethod(method)){
-			String newClassName=this.createNewClassName(method);
-			ClassWriter classWriter = AsmClassBuilder.build(newClassName,KevvyMethod.class);
-			createInvokeMethod(classWriter,beanClass,method);
-			classWriter.visitEnd();
-			byte[] bytes = classWriter.toByteArray();
-			result = AsmUtils.asmNewInstance(KevvyMethod.class, newClassName, bytes);
-		}else{
-			result=MethodAccessorReflectMethod.getMethodAccessorReflectMethod(method);
-			if(result==null){
-				result=new JavaOriginalReflectMethod();
-			}
-		}
-		return result;
+	@Override
+	public boolean isSuitable(Member member) {
+		return ReflectUtils.isNotPrivate(member) && !ReflectUtils.isStatic(member);
+	}
+
+	@Override
+	public KevvyMethod build(Class<?> beanClass, Member member)
+			throws Exception {
+		Method method=(Method)member;
+		this.beanClass=beanClass;
+		String newClassName=this.createNewClassName(method);
+		ClassWriter classWriter = AsmUtils.buildClass(newClassName,KevvyMethod.class);
+		createInvokeMethod(classWriter,beanClass,method);
+		classWriter.visitEnd();
+		byte[] bytes = classWriter.toByteArray();
+		return AsmUtils.asmNewInstance(beanClass,KevvyMethod.class, newClassName, bytes);
 	}
 	
-	
-	public int countExtraVmax(Class<?>[] argsClass,Class<?> returnClass){
+	private int countExtraVmax(Class<?>[] argsClass,Class<?> returnClass){
 		int count=0;
 		for (int i = 0; i < argsClass.length; i++) {
 			Class<?> claz = argsClass[i];
@@ -132,15 +129,6 @@ public class MethodClassBuilder implements Opcodes{
 		mv.visitVarInsn(ALOAD, 1);
 		mv.visitTypeInsn(CHECKCAST, className4asm);
 		mv.visitVarInsn(ASTORE, 3);
-	}
-	
-	
-	private  boolean isStaticMethod(Method method){
-		return (method.getModifiers() & Modifier.STATIC)==Modifier.STATIC;
-	}
-	
-	private  boolean isPublicMethod(Method method){
-		return (method.getModifiers() & Modifier.PUBLIC)==Modifier.PUBLIC;
 	}
 	
 }

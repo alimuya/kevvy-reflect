@@ -1,4 +1,4 @@
-package com.alimuya.kevvy.reflect.factroy;
+package com.alimuya.kevvy.reflect.method;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

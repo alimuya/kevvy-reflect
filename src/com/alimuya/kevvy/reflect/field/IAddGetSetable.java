@@ -1,10 +1,10 @@
-package com.alimuya.kevvy.reflect.factroy;
+package com.alimuya.kevvy.reflect.field;
 
 /**
  * @author ov_alimuya
  *
  */
-public interface IGSMethodBuilder {
+public interface IAddGetSetable {
 	public void addGetters();
 	
 	public void addSetters();

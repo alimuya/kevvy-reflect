@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alimuya.kevvy.reflect.exception.MethodReflectException;
-import com.alimuya.kevvy.reflect.factroy.MethodClassBuilder;
+import com.alimuya.kevvy.reflect.method.MethodReflectDirector;
 
 /**
  * @author ov_alimuya
@@ -18,7 +18,7 @@ public class KevvyMethodReflect {
 	
 	private KevvyMethodReflect (Class<?> claz) throws MethodReflectException{
 		try {
-			MethodClassBuilder builder=new MethodClassBuilder(claz);
+			MethodReflectDirector builder=new MethodReflectDirector(claz);
 			Method[] ms = claz.getDeclaredMethods();
 			int length=ms.length;
 			this.array=new KevvyMethod[length];
@@ -28,7 +28,7 @@ public class KevvyMethodReflect {
 					method.setAccessible(true);
 				}
 				KevvyMethod kevvyMethod = builder.build(method);
-				kevvyMethod.setOriginalMethod(method);
+				kevvyMethod.setOriginal(method);
 				String methodName = method.getName();
 				array[i]=kevvyMethod;
 				map.put(getMethodKey(methodName, method.getParameterTypes()),kevvyMethod);

@@ -9,8 +9,7 @@ import com.alimuya.kevvy.reflect.exception.InvokeTargetException;
  * @author ov_alimuya
  *
  */
-public abstract class KevvyConstructor<T> {
-	protected Constructor<T> originalConstructor;
+public abstract class KevvyConstructor<T> extends AbstractReflectObject<Constructor<T>>{
 	
 	public  T newInstance (Object ... args) throws ConstructorReflectException, InvokeTargetException{
 		try {
@@ -29,18 +28,6 @@ public abstract class KevvyConstructor<T> {
 		}
 	}
 	
-	
-	
 	protected abstract T _newInstance(Object ... args) throws ConstructorReflectException, InvokeTargetException;
 	
-	public Constructor<T> getOriginalConstructor() {
-		return originalConstructor;
-	}
-
-	void setOriginalConstructor(Constructor<T> originalConstructor) {
-		if(!originalConstructor.isAccessible()){
-			originalConstructor.setAccessible(true);
-		}
-		this.originalConstructor = originalConstructor;
-	}
 }

@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import com.alimuya.kevvy.reflect.KevvyMethod;
 import com.alimuya.kevvy.reflect.KevvyMethodReflect;
-import com.alimuya.kevvy.reflect.factroy.JavaOriginalReflectMethod;
-import com.alimuya.kevvy.reflect.factroy.MethodAccessorReflectMethod;
+import com.alimuya.kevvy.reflect.method.JavaOriginalMethodBuilder.JavaOriginalReflectMethod;
+import com.alimuya.kevvy.reflect.method.MethodAccessorReflectMethod;
 import com.alimuya.kevvy.reflect.test.bean.TestMethodInvokeBean;
 
 public class KevvyMethodReflectTest extends TestCase{
@@ -36,7 +36,7 @@ public class KevvyMethodReflectTest extends TestCase{
 		KevvyMethod[] methods = kr.getMethods();
 		assertEquals(methods.length,javaMethods.length);
 		for (int i = 0; i < methods.length; i++) {
-			assertEquals(methods[i].getOriginalMethod(),javaMethods[i]);
+			assertEquals(methods[i].getOriginal(),javaMethods[i]);
 		}
 		return ;
 	}
@@ -46,7 +46,7 @@ public class KevvyMethodReflectTest extends TestCase{
 		for (int i = 0; i < javaMethods.length; i++) {
 			Method javaMethod = javaMethods[i];
 			KevvyMethod method = kr.getMethod(javaMethod.getName(), javaMethod.getParameterTypes());
-			assertEquals(method.getOriginalMethod(), javaMethod);
+			assertEquals(method.getOriginal(), javaMethod);
 			boolean  isPublic=(javaMethod.getModifiers()& Modifier.PUBLIC)==Modifier.PUBLIC;
 			boolean notStatic= (javaMethod.getModifiers()& Modifier.STATIC)!=Modifier.STATIC;
 			if(!(isPublic && notStatic)){

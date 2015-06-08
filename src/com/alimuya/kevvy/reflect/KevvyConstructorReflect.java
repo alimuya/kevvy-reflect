@@ -4,9 +4,9 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alimuya.kevvy.reflect.constructor.ConstructorReflectDirector;
 import com.alimuya.kevvy.reflect.exception.ConstructorReflectException;
-import com.alimuya.kevvy.reflect.factroy.ConstructorBuilder;
-import com.alimuya.kevvy.reflect.factroy.UnsafeFactory;
+import com.alimuya.kevvy.reflect.utils.UnsafeFactory;
 
 /**
  * @author ov_alimuya
@@ -24,11 +24,11 @@ public class KevvyConstructorReflect<T> {
 			Constructor<T>[] constructors = (Constructor<T>[]) claz.getDeclaredConstructors();
 			int length=constructors.length;
 			array=new KevvyConstructor[length];
-			ConstructorBuilder builder=new ConstructorBuilder(claz);
+			ConstructorReflectDirector builder=new ConstructorReflectDirector(claz);
 			for (int i = 0; i < length; i++) {
 				Constructor<T> constructor = constructors[i];
 				KevvyConstructor<T> kevvyConstructor = builder.build(constructor);
-				kevvyConstructor.setOriginalConstructor(constructor);
+				kevvyConstructor.setOriginal(constructor);
 				array[i]=kevvyConstructor;
 				map.put(getClassesKey(constructor.getParameterTypes()), kevvyConstructor);
 			}

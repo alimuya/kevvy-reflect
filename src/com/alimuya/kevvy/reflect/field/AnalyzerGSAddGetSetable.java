@@ -1,4 +1,4 @@
-package com.alimuya.kevvy.reflect.factroy;
+package com.alimuya.kevvy.reflect.field;
 
 import java.lang.reflect.Field;
 
@@ -6,19 +6,19 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.alimuya.kevvy.reflect.analyzer.GetSetMethodNode;
+import com.alimuya.kevvy.reflect.utils.AsmUtils;
 
 /**
  * @author ov_alimuya
  *
  */
-class AnalyzerGSMethodBuilder extends AbstractAsmBulder implements IGSMethodBuilder{
+class AnalyzerGSAddGetSetable extends AbstractAsmFiledBulder implements IAddGetSetable{
 	private Field field;
 	private ClassWriter cw;
 	private Class<?> beanClass;
 	private GetSetMethodNode node;
 	
-	AnalyzerGSMethodBuilder(Class<?> beanClass,Field field,ClassWriter cw,GetSetMethodNode node){
+	AnalyzerGSAddGetSetable(Class<?> beanClass,Field field,ClassWriter cw,GetSetMethodNode node){
 		this.field=field;
 		this.cw=cw;
 		this.beanClass=beanClass;

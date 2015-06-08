@@ -37,7 +37,7 @@ public class KevvyFieldReflectTest extends TestCase{
 		KevvyField[] fields = kevvyFieldReflect.getFields();
 		Field[] jFeilds = testClass.getDeclaredFields();
 		for (int i = 0; i < jFeilds.length; i++) {
-			if(!fields[i].getOriginalFeld().equals(jFeilds[i])){
+			if(!fields[i].getOriginal().equals(jFeilds[i])){
 				assertTrue(false);
 				return;
 			}
@@ -53,7 +53,7 @@ public class KevvyFieldReflectTest extends TestCase{
 			Field field = jFeilds[i];
 			field.setAccessible(true);
 			KevvyField kf = kevvyFieldReflect.getField(field.getName());
-			if(kf==null || !kf.getOriginalFeld().equals(field)){
+			if(kf==null || !kf.getOriginal().equals(field)){
 				assertTrue(false);
 				return;
 			}

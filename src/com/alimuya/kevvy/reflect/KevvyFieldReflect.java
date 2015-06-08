@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alimuya.kevvy.reflect.exception.FieldReflectException;
-import com.alimuya.kevvy.reflect.factroy.FieldClassBuilder;
+import com.alimuya.kevvy.reflect.field.FieldReflectDirector;
 
 /**
  * @author ov_alimuya
@@ -21,12 +21,11 @@ public class KevvyFieldReflect {
 			Field[] fields = claz.getDeclaredFields();
 			int length=fields.length;
 			this.array=new KevvyField[length];
-			FieldClassBuilder builder=new FieldClassBuilder(claz);
-			builder.analyse();
+			FieldReflectDirector builder=new FieldReflectDirector(claz);
 			for (int i = 0; i < length; i++) {
 				Field field = fields[i];
 				KevvyField kevvyField=builder.build(field);
-				kevvyField.setOriginalFeld(field);
+				kevvyField.setOriginal(field);
 				map.put(field.getName(), kevvyField);
 				array[i]=kevvyField;
 			}

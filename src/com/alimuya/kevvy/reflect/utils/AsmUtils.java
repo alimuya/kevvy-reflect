@@ -1,5 +1,6 @@
-package com.alimuya.kevvy.reflect.factroy;
+package com.alimuya.kevvy.reflect.utils;
 
+import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.objectweb.asm.ClassWriter;
@@ -13,12 +14,23 @@ import org.objectweb.asm.Type;
  */
 public final class AsmUtils extends ClassLoader implements Opcodes{
 	private static AtomicInteger id=new AtomicInteger(0);
-	private static class AsmClassLoader extends ClassLoader {
-		public Class<?> selfDefineClass(String className,byte[] bytes){
-			return this.defineClass(className, bytes, 0, bytes.length);
-		}
-		
-	};
+	private static Method classLoaderMethod;
+//	private static class AsmClassLoader extends ClassLoader {
+//		public Class<?> selfDefineClass(String className,byte[] bytes){
+//			return this.defineClass(className, bytes, 0, bytes.length);
+//		}
+//		
+//	};
+	
+	static{
+		try {
+			classLoaderMethod=ClassLoader.class.getDeclaredMethod("defineClass", String.class,byte[].class,int.class,int.class);
+			classLoaderMethod.setAccessible(true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
 	
 	public static  int getArrayIndexIConstOpcode(int index){
 		switch (index) {
@@ -61,7 +73,7 @@ public final class AsmUtils extends ClassLoader implements Opcodes{
 		}
 	}
 	
-	private static AsmClassLoader classLoader=new AsmClassLoader();
+//	private static AsmClassLoader classLoader=new AsmClassLoader();
 	public static String getNewClassNameByFieldName(Class<?> srcClaz,String fieldName){
 		String packageName = srcClaz.getPackage().getName();
 		String className=packageName+"."+srcClaz.getSimpleName()+"_"+fieldName+"_asm_"+id.getAndIncrement();
@@ -81,6 +93,27 @@ public final class AsmUtils extends ClassLoader implements Opcodes{
 		}else{
 			return V1_7;
 		}
+	}
+	
+	public static ClassWriter buildClass(String newClassName,Class<?> superClass){
+		return buildClass(newClassName, superClass, null);
+	}
+	
+	public static ClassWriter buildClass(String newClassName,Class<?> superClass,String signature){
+		String superName4Asm = AsmUtils.toAsmCls(superClass);
+		ClassWriter cw = new ClassWriter(0);
+		MethodVisitor mv;
+		cw.visit(AsmUtils.getJDKVersionTag(), ACC_PUBLIC + ACC_SUPER, AsmUtils.toAsmCls(newClassName), signature, superName4Asm, null);
+		{
+			mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
+			mv.visitCode();
+			mv.visitVarInsn(ALOAD, 0);
+			mv.visitMethodInsn(INVOKESPECIAL, superName4Asm, "<init>", "()V", false);
+			mv.visitInsn(RETURN);
+			mv.visitMaxs(1, 1);
+			mv.visitEnd();
+		}
+		return cw;
 	}
 	
 	/**
@@ -169,10 +202,12 @@ public final class AsmUtils extends ClassLoader implements Opcodes{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static<T> T asmNewInstance(Class<T> superClaz,String className,byte[] bytes) throws Exception{
+	public static<T> T asmNewInstance(Class<?> beanClass,Class<T> superClaz,String className,byte[] bytes) throws Exception{
 		try {
-			Class<T> newClass = (Class<T>)classLoader.selfDefineClass(className, bytes);
+//			Class<T> newClass = (Class<T>)classLoader.selfDefineClass(className, bytes);
+			Class<T> newClass = (Class<T>)classLoaderMethod.invoke(beanClass.getClassLoader(), className, bytes, 0, bytes.length);
 			return  (T) newClass.newInstance();
+			
 		} catch (Exception e) {
 			throw new Exception(e);
 		}

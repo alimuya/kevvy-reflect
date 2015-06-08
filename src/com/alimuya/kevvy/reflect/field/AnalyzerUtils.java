@@ -1,4 +1,4 @@
-package com.alimuya.kevvy.reflect.analyzer;
+package com.alimuya.kevvy.reflect.field;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -6,14 +6,14 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-import com.alimuya.kevvy.reflect.factroy.AsmUtils;
+import com.alimuya.kevvy.reflect.utils.AsmUtils;
 
 /**
  * @author ov_alimuya
  *
  */
-public class AnalyzerUtils implements Opcodes{
-	public static boolean isReturnNode(AbstractInsnNode node,boolean isVoid){
+class AnalyzerUtils implements Opcodes{
+	static boolean isReturnNode(AbstractInsnNode node,boolean isVoid){
 		if(node instanceof InsnNode){
 			InsnNode var = (InsnNode)node;
 			int opcode = var.getOpcode();
@@ -25,11 +25,11 @@ public class AnalyzerUtils implements Opcodes{
 		}
 		return false;
 	}
-	public static boolean isThisFieldGet(AbstractInsnNode node,Class<?> claz,String methodDesc){
+	static boolean isThisFieldGet(AbstractInsnNode node,Class<?> claz,String methodDesc){
 		return isThisFieldOperate(node, claz, true,methodDesc);
 	}
 	
-	public static boolean isThisFieldSet(AbstractInsnNode node,Class<?> claz,String methodDesc){
+	static boolean isThisFieldSet(AbstractInsnNode node,Class<?> claz,String methodDesc){
 		return isThisFieldOperate(node, claz, false,methodDesc);
 	}
 	
@@ -50,7 +50,7 @@ public class AnalyzerUtils implements Opcodes{
 		return false;
 	}
 	
-	public static boolean isThisPointerLoadNode(AbstractInsnNode node){
+	static boolean isThisPointerLoadNode(AbstractInsnNode node){
 		if(node instanceof VarInsnNode){
 			VarInsnNode var = (VarInsnNode)node;
 			return var.getOpcode()==ALOAD && var.var==0;
@@ -58,7 +58,7 @@ public class AnalyzerUtils implements Opcodes{
 		return false;
 	}
 	
-	public static boolean isDataLoadNode(AbstractInsnNode node){
+	static boolean isDataLoadNode(AbstractInsnNode node){
 		if(node instanceof VarInsnNode){
 			VarInsnNode var = (VarInsnNode)node;
 			return isNormalLoadOpcode(var.getOpcode()) && var.var==1;

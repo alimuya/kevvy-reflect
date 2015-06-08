@@ -1,4 +1,4 @@
-package com.alimuya.kevvy.reflect.factroy;
+package com.alimuya.kevvy.reflect.field;
 
 import java.lang.reflect.Field;
 
@@ -6,16 +6,19 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 
+import com.alimuya.kevvy.reflect.utils.AsmUtils;
+import com.alimuya.kevvy.reflect.utils.UnsafeFactory;
+
 /**
  * @author ov_alimuya
  *
  */
-class UnsafeGSMethodBuilder extends AbstractAsmBulder implements IGSMethodBuilder{
+class UnsafeAddGetSetable extends AbstractAsmFiledBulder implements IAddGetSetable{
 	private ClassWriter cw;
 	private Field field;
 	private String className;
 	private long offset;
-	UnsafeGSMethodBuilder(String className,ClassWriter cw,Field field){
+	UnsafeAddGetSetable(String className,ClassWriter cw,Field field){
 		this.cw=cw;
 		this.field=field;
 		this.className=className;

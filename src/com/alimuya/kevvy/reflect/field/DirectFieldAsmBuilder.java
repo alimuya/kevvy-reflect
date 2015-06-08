@@ -1,53 +1,74 @@
-package com.alimuya.kevvy.reflect.factroy;
+package com.alimuya.kevvy.reflect.field;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
+import com.alimuya.kevvy.reflect.IReflectObjectBuilder;
+import com.alimuya.kevvy.reflect.KevvyField;
+import com.alimuya.kevvy.reflect.utils.AsmUtils;
+import com.alimuya.kevvy.reflect.utils.ReflectUtils;
+
 /**
  * @author ov_alimuya
  *
  */
-class DirectGSMethodBuilder extends AbstractAsmBulder implements IGSMethodBuilder{
+class DirectFieldAsmBuilder extends AbstractAsmFiledBulder 
+implements IAddGetSetable,IReflectObjectBuilder<KevvyField>{
 	
 	private ClassWriter cw;
 	private Field field;
-	private Class<?> clazz;
+	private Class<?> beanClass;
 
-	DirectGSMethodBuilder(Class<?> beanClass,ClassWriter cw,Field field){
-		this.cw=cw;
-		this.field=field;
-		this.clazz=beanClass;
+	@Override
+	public boolean isSuitable(Member member) {
+		return ReflectUtils.isNotPrivate(member) && !ReflectUtils.isStatic(member);
 	}
+
+
+	@Override
+	public KevvyField build(Class<?> beanClass, Member member) throws Exception {
+		this.field =(Field)member;
+		String newClassName=this.createNewClassName(beanClass,field);
+		this.cw = AsmUtils.buildClass(newClassName,KevvyField.class);
+		this.beanClass=beanClass;
+		addGetters();
+		addSetters();
+		cw.visitEnd();
+		byte[] bytes = cw.toByteArray();
+		return AsmUtils.asmNewInstance(beanClass,KevvyField.class, newClassName, bytes);
+	}
+	
 	
 	@Override
 	public void addGetters() {
-		this.createNormalGetValueMethod(cw, clazz, field);
-		this.createGetValueMethod(cw, clazz, "getInt", int.class, field);
-		this.createGetValueMethod(cw, clazz, "getChar", char.class, field);
-		this.createGetValueMethod(cw, clazz, "getShort", short.class, field);
-		this.createGetValueMethod(cw, clazz, "getByte", byte.class, field);
+		this.createNormalGetValueMethod(cw, beanClass, field);
+		this.createGetValueMethod(cw, beanClass, "getInt", int.class, field);
+		this.createGetValueMethod(cw, beanClass, "getChar", char.class, field);
+		this.createGetValueMethod(cw, beanClass, "getShort", short.class, field);
+		this.createGetValueMethod(cw, beanClass, "getByte", byte.class, field);
 //		this.createGetValueMethod(cw, clazz, "getObject", Object.class, field);
-		this.createGetValueMethod(cw, clazz, "getLong", long.class, field);
-		this.createGetValueMethod(cw, clazz, "getFloat", float.class, field);
-		this.createGetValueMethod(cw, clazz, "getDouble", double.class, field);
-		this.createGetValueMethod(cw, clazz, "getBoolean", boolean.class, field);
+		this.createGetValueMethod(cw, beanClass, "getLong", long.class, field);
+		this.createGetValueMethod(cw, beanClass, "getFloat", float.class, field);
+		this.createGetValueMethod(cw, beanClass, "getDouble", double.class, field);
+		this.createGetValueMethod(cw, beanClass, "getBoolean", boolean.class, field);
 		
 	}
 
 	@Override
 	public void addSetters() {
-		this.createSetValueMethod(cw, clazz, "setInt", int.class, field);
-		this.createSetValueMethod(cw, clazz, "setChar", char.class, field);
-		this.createSetValueMethod(cw, clazz, "setShort", short.class, field);
-		this.createSetValueMethod(cw, clazz, "setByte", byte.class, field);
-		this.createSetValueMethod(cw, clazz, "_setObject", Object.class, field);
-		this.createSetValueMethod(cw, clazz, "setLong", long.class, field);
-		this.createSetValueMethod(cw, clazz, "setFloat", float.class, field);
-		this.createSetValueMethod(cw, clazz, "setDouble", double.class, field);
-		this.createSetValueMethod(cw, clazz, "setBoolean", boolean.class, field);
+		this.createSetValueMethod(cw, beanClass, "setInt", int.class, field);
+		this.createSetValueMethod(cw, beanClass, "setChar", char.class, field);
+		this.createSetValueMethod(cw, beanClass, "setShort", short.class, field);
+		this.createSetValueMethod(cw, beanClass, "setByte", byte.class, field);
+		this.createSetValueMethod(cw, beanClass, "_setObject", Object.class, field);
+		this.createSetValueMethod(cw, beanClass, "setLong", long.class, field);
+		this.createSetValueMethod(cw, beanClass, "setFloat", float.class, field);
+		this.createSetValueMethod(cw, beanClass, "setDouble", double.class, field);
+		this.createSetValueMethod(cw, beanClass, "setBoolean", boolean.class, field);
 		
 	}
 	
@@ -122,5 +143,5 @@ class DirectGSMethodBuilder extends AbstractAsmBulder implements IGSMethodBuilde
 		}
 		mv.visitEnd();
 	}
-
+	
 }

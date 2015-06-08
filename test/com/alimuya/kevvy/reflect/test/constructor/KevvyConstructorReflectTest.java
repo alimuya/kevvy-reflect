@@ -28,7 +28,7 @@ public class KevvyConstructorReflectTest extends TestCase {
 		Constructor<?>[] jcs = TestConstructorBean.class.getDeclaredConstructors();
 		assertEquals(kcs.length, jcs.length);
 		for (int i = 0; i < kcs.length; i++) {
-			assertEquals(kcs[i].getOriginalConstructor(),jcs[i]);
+			assertEquals(kcs[i].getOriginal(),jcs[i]);
 		}
 	}
 
@@ -38,7 +38,7 @@ public class KevvyConstructorReflectTest extends TestCase {
 		for (int i = 0; i < jcs.length; i++) {
 			Class<?>[] types = jcs[i].getParameterTypes();
 			KevvyConstructor<TestConstructorBean> kc = this.constructorReflect.getConstructor(types);
-			assertEquals(kc.getOriginalConstructor(), jcs[i]);
+			assertEquals(kc.getOriginal(), jcs[i]);
 		}
 	}
 

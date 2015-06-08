@@ -9,8 +9,7 @@ import com.alimuya.kevvy.reflect.exception.MethodReflectException;
  * @author ov_alimuya
  *
  */
-public abstract class KevvyMethod{
-	protected Method originalMethod;
+public abstract class KevvyMethod extends AbstractReflectObject<Method>{
 	
 	public  Object invoke (Object obj,Object ... args) throws MethodReflectException, InvokeTargetException{
 		try {
@@ -33,14 +32,4 @@ public abstract class KevvyMethod{
 	
 	protected abstract Object _invoke(Object obj,Object ... args) throws MethodReflectException, InvokeTargetException;
 	
-	public Method getOriginalMethod() {
-		return originalMethod;
-	}
-
-	void setOriginalMethod(Method originalMethod) {
-		if(!originalMethod.isAccessible()){
-			originalMethod.setAccessible(true);
-		}
-		this.originalMethod = originalMethod;
-	}
 }

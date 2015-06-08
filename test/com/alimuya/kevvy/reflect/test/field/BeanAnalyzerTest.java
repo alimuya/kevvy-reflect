@@ -8,8 +8,8 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alimuya.kevvy.reflect.analyzer.BeanAnalyzer;
-import com.alimuya.kevvy.reflect.analyzer.GetSetMethodNode;
+import com.alimuya.kevvy.reflect.field.BeanAnalyzer;
+import com.alimuya.kevvy.reflect.field.GetSetMethodNode;
 import com.alimuya.kevvy.reflect.test.bean.TestBeanAnalyzerBean;
 
 public class BeanAnalyzerTest extends TestCase {

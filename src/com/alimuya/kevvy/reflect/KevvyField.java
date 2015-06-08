@@ -8,8 +8,7 @@ import com.alimuya.kevvy.reflect.exception.FieldReflectException;
  * @author ov_alimuya
  *
  */
-public abstract class KevvyField {
-	protected Field originalFeld;
+public abstract class KevvyField extends AbstractReflectObject<Field>{
 	public abstract Object get(Object obj) throws FieldReflectException;
 	public abstract boolean getBoolean(Object obj) throws FieldReflectException;
 	public abstract byte getByte(Object obj) throws FieldReflectException;
@@ -40,15 +39,5 @@ public abstract class KevvyField {
 	public abstract void setBoolean(Object obj,boolean value) throws FieldReflectException;
 	
 	protected abstract void _setObject(Object obj,Object value) throws FieldReflectException;
-	
-	public Field getOriginalFeld() {
-		return originalFeld;
-	}
-	
-	protected void setOriginalFeld(Field field) {
-		this.originalFeld = field;
-	}
-	  
-	
 	
 }
