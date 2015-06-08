@@ -7,6 +7,7 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 
 import com.alimuya.kevvy.reflect.utils.AsmUtils;
+import com.alimuya.kevvy.reflect.utils.ReflectUtils;
 import com.alimuya.kevvy.reflect.utils.UnsafeFactory;
 
 /**
@@ -86,6 +87,10 @@ class UnsafeAddGetSetable extends AbstractAsmFiledBulder implements IAddGetSetab
 			}else{
 				unsafeMethodName = "put"+methodName.substring(3);
 			}
+			if(ReflectUtils.isVolatile(field)){
+				unsafeMethodName=unsafeMethodName+"Volatile";
+			}
+			
 			mv.visitFieldInsn(GETSTATIC, AsmUtils.toAsmCls(className), "unsafe", "Lsun/misc/Unsafe;");
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitLdcInsn(new Long(offset));

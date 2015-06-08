@@ -11,6 +11,10 @@ import com.alimuya.kevvy.reflect.KevvyField;
 import com.alimuya.kevvy.reflect.utils.AsmUtils;
 import com.alimuya.kevvy.reflect.utils.ReflectUtils;
 
+/**
+ * @author ov_alimuya
+ *
+ */
 class MixedFieldAsmBuilder extends AbstractAsmFiledBulder 
 	implements IReflectObjectBuilder<KevvyField>{
 	

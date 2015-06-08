@@ -25,7 +25,7 @@ implements IAddGetSetable,IReflectObjectBuilder<KevvyField>{
 
 	@Override
 	public boolean isSuitable(Member member) {
-		return ReflectUtils.isNotPrivate(member) && !ReflectUtils.isStatic(member);
+		return ReflectUtils.isNotPrivate(member);
 	}
 
 
@@ -84,18 +84,29 @@ implements IAddGetSetable,IReflectObjectBuilder<KevvyField>{
 				mv.visitMaxs(3, 3);
 			}
 		}else{
-			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, asmClassName);
-			mv.visitVarInsn(AsmUtils.getLoadTag(argClass), 2);
-			if(fieldClass!=argClass){
-				mv.visitTypeInsn(CHECKCAST, AsmUtils.toAsmCls(fieldClass));
+			int vmax=2;
+			int omax=3;
+			if(ReflectUtils.isStatic(field)){
+				vmax--;
+				mv.visitVarInsn(AsmUtils.getLoadTag(argClass), 2);
+				if(fieldClass!=argClass){
+					mv.visitTypeInsn(CHECKCAST, AsmUtils.toAsmCls(fieldClass));
+				}
+				mv.visitFieldInsn(PUTSTATIC, asmClassName, field.getName(), Type.getDescriptor(fieldClass));
+			}else{
+				mv.visitVarInsn(ALOAD, 1);
+				mv.visitTypeInsn(CHECKCAST, asmClassName);
+				mv.visitVarInsn(AsmUtils.getLoadTag(argClass), 2);
+				if(fieldClass!=argClass){
+					mv.visitTypeInsn(CHECKCAST, AsmUtils.toAsmCls(fieldClass));
+				}
+				mv.visitFieldInsn(PUTFIELD, asmClassName, field.getName(), Type.getDescriptor(fieldClass));
 			}
-			mv.visitFieldInsn(PUTFIELD, asmClassName, field.getName(), Type.getDescriptor(fieldClass));
 			mv.visitInsn(RETURN);
 			if(AsmUtils.needMoreStack(argClass)){
-				mv.visitMaxs(3, 4);
+				mv.visitMaxs(omax+1, omax+1);
 			}else{
-				mv.visitMaxs(2, 3);
+				mv.visitMaxs(vmax, omax);
 			}
 		}
 		mv.visitEnd();
@@ -110,9 +121,13 @@ implements IAddGetSetable,IReflectObjectBuilder<KevvyField>{
 			this.createThrowException(mv);
 			mv.visitMaxs(3,2);
 		}else{
-			mv.visitVarInsn(ALOAD, 1);
-			mv.visitTypeInsn(CHECKCAST, asmClassName);
-			mv.visitFieldInsn(GETFIELD, asmClassName, field.getName(), Type.getDescriptor(fieldClass));
+			if(ReflectUtils.isStatic(field)){
+				mv.visitFieldInsn(GETSTATIC, asmClassName, field.getName(), Type.getDescriptor(fieldClass));
+			}else{
+				mv.visitVarInsn(ALOAD, 1);
+				mv.visitTypeInsn(CHECKCAST, asmClassName);
+				mv.visitFieldInsn(GETFIELD, asmClassName, field.getName(), Type.getDescriptor(fieldClass));
+			}
 			mv.visitInsn(AsmUtils.getReturnTag(returnClass));
 			if(AsmUtils.needMoreStack(returnClass)){
 				mv.visitMaxs(2, 2);
@@ -127,9 +142,13 @@ implements IAddGetSetable,IReflectObjectBuilder<KevvyField>{
 		MethodVisitor mv = this.createGetMethodVisitor(cw, "get", Object.class);
 		String asmClassName=AsmUtils.toAsmCls(beanClaz);
 		Class<?> fieldClass=field.getType();
-		mv.visitVarInsn(ALOAD, 1);
-		mv.visitTypeInsn(CHECKCAST, asmClassName);
-		mv.visitFieldInsn(GETFIELD, asmClassName, field.getName(), Type.getDescriptor(fieldClass));
+		if(ReflectUtils.isStatic(field)){
+			mv.visitFieldInsn(GETSTATIC, asmClassName, field.getName(), Type.getDescriptor(fieldClass));
+		}else{
+			mv.visitVarInsn(ALOAD, 1);
+			mv.visitTypeInsn(CHECKCAST, asmClassName);
+			mv.visitFieldInsn(GETFIELD, asmClassName, field.getName(), Type.getDescriptor(fieldClass));
+		}
 		if(fieldClass.isPrimitive()){
 			Class<?> wrapperClass = AsmUtils.convert2WrapperClass(fieldClass);
 			mv.visitMethodInsn(INVOKESTATIC, AsmUtils.toAsmCls(wrapperClass), 

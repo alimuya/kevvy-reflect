@@ -11,6 +11,6 @@ public class TestDirectFieldBean {
 	protected int f=34567;
 	protected long g=System.currentTimeMillis();
 	protected float h=1.23f;
-	double i=234.58909;
+	static double i=234.58909;
 	static String j="345";
 }
