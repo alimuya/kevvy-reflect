@@ -18,6 +18,7 @@ public class FieldReflectDirector {
 		this.beanClass=beanClass;
 		builders.add(new DirectFieldAsmBuilder());
 		builders.add(new MixedFieldAsmBuilder());
+		builders.add(new PrivateStaticFieldBuilder());
 		builders.add(new JavaOriginalFieldBulider());
 	}
 	
