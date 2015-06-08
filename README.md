@@ -5,8 +5,19 @@ faster-reflect, just alpha version
 
 
 ## Performance
-Field Set & Get Value :
-![image](https://github.com/alimuya/kevvy-reflect/raw/master/build/res/benchmark/field/jdk7_field_all.png)
+#Field Reflection :
+
+Non-Private Field: 
+![image](https://github.com/alimuya/kevvy-reflect/raw/master/build/res/benchmark/field/field_not_private_jdk7.png)
+
+Private Field:
+![image](https://github.com/alimuya/kevvy-reflect/raw/master/build/res/benchmark/field/field_private_jdk7.png)
+
+Bean Field, Non-Private Field and Java-Getter/Setter Comparison: 
+![image](https://github.com/alimuya/kevvy-reflect/raw/master/build/res/benchmark/field/field_bean_public_gs_jdk7.png)
+
+Field Family Portrait:
+![image](https://github.com/alimuya/kevvy-reflect/raw/master/build/res/benchmark/field/field_all_jdk7.png)
 
 Public Method Invoke :
 
