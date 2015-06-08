@@ -12,7 +12,6 @@ import com.alimuya.kevvy.reflect.KevvyMethod;
 import com.alimuya.kevvy.reflect.KevvyMethodReflect;
 import com.alimuya.kevvy.reflect.method.JavaOriginalMethodBuilder.JavaOriginalReflectMethod;
 import com.alimuya.kevvy.reflect.method.MethodAccessorReflectMethod;
-import com.alimuya.kevvy.reflect.test.bean.TestMethodInvokeBean;
 
 public class KevvyMethodReflectTest extends TestCase{
 
@@ -42,18 +41,8 @@ public class KevvyMethodReflectTest extends TestCase{
 	}
 
 	@Test
-	public void testGetMethod() {
-		for (int i = 0; i < javaMethods.length; i++) {
-			Method javaMethod = javaMethods[i];
-			KevvyMethod method = kr.getMethod(javaMethod.getName(), javaMethod.getParameterTypes());
-			assertEquals(method.getOriginal(), javaMethod);
-			boolean  isPublic=(javaMethod.getModifiers()& Modifier.PUBLIC)==Modifier.PUBLIC;
-			boolean notStatic= (javaMethod.getModifiers()& Modifier.STATIC)!=Modifier.STATIC;
-			if(!(isPublic && notStatic)){
-				boolean tmp=(method instanceof JavaOriginalReflectMethod || method instanceof MethodAccessorReflectMethod);
-				assertTrue(tmp);
-			}
-		}
+	public void testGetMethodPolicy() {
+		
 	}
 
 }

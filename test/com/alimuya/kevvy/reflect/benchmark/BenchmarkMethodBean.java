@@ -22,7 +22,7 @@ public class BenchmarkMethodBean{
 	
 	private void privateVoidParameters (String p0,String p1, String p2, double p3, int p4){}
 	
-	public String privateReturnParameters(String p0,String p1, String p2, double p3, int p4){
+	private String privateReturnParameters(String p0,String p1, String p2, double p3, int p4){
 		return "sssss";
 	}
 	

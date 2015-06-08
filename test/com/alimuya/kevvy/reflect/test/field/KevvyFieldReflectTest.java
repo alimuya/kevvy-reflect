@@ -11,7 +11,6 @@ import org.junit.runners.MethodSorters;
 import com.alimuya.kevvy.reflect.KevvyField;
 import com.alimuya.kevvy.reflect.KevvyFieldReflect;
 import com.alimuya.kevvy.reflect.exception.FieldReflectException;
-import com.alimuya.kevvy.reflect.test.bean.TestPrivateFieldBean;
 @FixMethodOrder(MethodSorters.JVM)
 public class KevvyFieldReflectTest extends TestCase{ 
 

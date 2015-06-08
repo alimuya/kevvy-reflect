@@ -4,7 +4,7 @@ import com.alimuya.kevvy.reflect.KevvyMethod;
 import com.alimuya.kevvy.reflect.KevvyMethodReflect;
 import com.alimuya.kevvy.reflect.exception.InvokeTargetException;
 import com.alimuya.kevvy.reflect.exception.MethodReflectException;
-import com.alimuya.kevvy.reflect.test.bean.TestMethodInvokeBean;
+import com.alimuya.kevvy.reflect.test.method.TestMethodInvokeBean;
 
 
 /**

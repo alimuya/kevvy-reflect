@@ -47,15 +47,15 @@ public class MethodAccessBenchmark extends Benchmark {
 			}
 			
 //			//VoidParameters
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = kevvyVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
-//			}
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = kevvyPrivateVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
-//			}
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = javaVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
-//			}
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyPrivateVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = javaVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
 //			
 //			//ReturnNoParameter
 			for (int ii = 0; ii < count; ii++){
@@ -70,61 +70,61 @@ public class MethodAccessBenchmark extends Benchmark {
 //			
 //			// ReturnParameters
 ////			
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = kevvyReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
-//			}
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = kevvyPrivateReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
-//			}
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = javaReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
-//			}
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyPrivateReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = javaReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
 		}
 		warmup = false;
 		//===========================================================
-//		for (int i = 0; i < 100; i++) {
-//			start();
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = kevvyVoidNoParameter.invoke(bean);
-//			}
-//			end("Kevvy-Void-NoParameter");
-//		}
-//		for (int i = 0; i < 100; i++) {
-//			start();
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = kevvyPrivateVoidNoParameter.invoke(bean);
-//			}
-//			end("Kevvy-Private-Void-NoParameter");
-//		}
-//		for (int i = 0; i < 100; i++) {
-//			start();
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = javaVoidNoParameter.invoke(bean);
-//			}
-//			end("Java-Void-NoParameter");
-//		}
-		//===========================================================		
-//		for (int i = 0; i < 100; i++) {
-//			start();
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = kevvyVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
-//			}
-//			end("Kevvy-Void-Parameters");
-//		}
-//		for (int i = 0; i < 100; i++) {
-//			start();
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = kevvyPrivateVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
-//			}
-//			end("Kevvy-Private-Void-Parameters");
-//		}
-//		for (int i = 0; i < 100; i++) {
-//			start();
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = javaVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
-//			}
-//			end("Java-Void-Parameters");
-//		}
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyVoidNoParameter.invoke(bean);
+			}
+			end("Kevvy-Void-NoParameter");
+		}
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyPrivateVoidNoParameter.invoke(bean);
+			}
+			end("Kevvy-Private-Void-NoParameter");
+		}
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = javaVoidNoParameter.invoke(bean);
+			}
+			end("Java-Void-NoParameter");
+		}
+//		===========================================================		
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			end("Kevvy-Void-Parameters");
+		}
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyPrivateVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			end("Kevvy-Private-Void-Parameters");
+		}
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = javaVoidParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			end("Java-Void-Parameters");
+		}
 //		//===========================================================
 		for (int i = 0; i < 100; i++) {
 			start();
@@ -148,27 +148,27 @@ public class MethodAccessBenchmark extends Benchmark {
 			end("Java-Return-NoParameter");
 		}
 //		//===========================================================
-//		for (int i = 0; i < 100; i++) {
-//			start();
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = kevvyReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
-//			}
-//			end("Kevvy-Return-Parameters");
-//		}
-//		for (int i = 0; i < 100; i++) {
-//			start();
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = kevvyPrivateReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
-//			}
-//			end("Kevvy-Private-Return-Parameters");
-//		}
-//		for (int i = 0; i < 100; i++) {
-//			start();
-//			for (int ii = 0; ii < count; ii++){
-//				dontCompileMeAway[ii] = javaReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
-//			}
-//			end("Java-Return-Parameters");
-//		}
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			end("Kevvy-Return-Parameters");
+		}
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = kevvyPrivateReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			end("Kevvy-Private-Return-Parameters");
+		}
+		for (int i = 0; i < 100; i++) {
+			start();
+			for (int ii = 0; ii < count; ii++){
+				dontCompileMeAway[ii] = javaReturnParameters.invoke(bean,"vv","ov","alimuya",3.14,1);
+			}
+			end("Java-Return-Parameters");
+		}
 		chart("Kevvy-Method-Invoke");
 	}
 

@@ -1,4 +1,4 @@
-package com.alimuya.kevvy.reflect.test.bean;
+package com.alimuya.kevvy.reflect.test.method;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,11 +21,11 @@ public class TestMethodInvokeBean {
 		return "sssss";
 	}
 		
-	public double test4(String [] p1,  Long p2){
+	private double test4(String [] p1,  Long p2){
 		return 0.2;
 	}
 	
-	public List<String> test5(){
+	protected List<String> test5(){
 		return new ArrayList<String>(){
 			/**
 			 * 
@@ -36,11 +36,11 @@ public class TestMethodInvokeBean {
 		};
 	}
 	
-	public int[] test6(String [] p1,  int p2){
+	int[] test6(String [] p1,  int p2){
 		return new int[]{0,1,3,4,5};
 	}
 	
-	public int[] test7(String [] p1,  int p2) throws IOException{
+	int[] test7(String [] p1,  int p2) throws IOException{
 		throw new IOException();
 	}
 	
@@ -58,6 +58,11 @@ public class TestMethodInvokeBean {
 	
 	@SuppressWarnings("unused")
 	private static int test10(long p1, String p2){
+		return 2;
+	}
+	
+	@SuppressWarnings("unused")
+	static int test11(String p1){
 		return 2;
 	}
 }

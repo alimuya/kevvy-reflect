@@ -3,7 +3,7 @@ package com.alimuya.kevvy.reflect.example;
 import com.alimuya.kevvy.reflect.KevvyField;
 import com.alimuya.kevvy.reflect.KevvyFieldReflect;
 import com.alimuya.kevvy.reflect.exception.FieldReflectException;
-import com.alimuya.kevvy.reflect.test.bean.TestGSettersFieldBean;
+import com.alimuya.kevvy.reflect.test.field.TestGSettersFieldBean;
 
 /**
  * @author ov_alimuya

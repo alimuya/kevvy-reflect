@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import com.alimuya.kevvy.reflect.field.BeanAnalyzer;
 import com.alimuya.kevvy.reflect.field.GetSetMethodNode;
-import com.alimuya.kevvy.reflect.test.bean.TestBeanAnalyzerBean;
 
 public class BeanAnalyzerTest extends TestCase {
 	private Class <?> claz=TestBeanAnalyzerBean.class;

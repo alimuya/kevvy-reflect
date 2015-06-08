@@ -8,7 +8,6 @@ import org.junit.Test;
 import com.alimuya.kevvy.reflect.KevvyConstructor;
 import com.alimuya.kevvy.reflect.KevvyConstructorReflect;
 import com.alimuya.kevvy.reflect.exception.ConstructorReflectException;
-import com.alimuya.kevvy.reflect.test.bean.TestConstructorBean;
 
 import junit.framework.TestCase;
 

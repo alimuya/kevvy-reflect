@@ -1,6 +1,5 @@
 package com.alimuya.kevvy.reflect.test.field;
 
-import com.alimuya.kevvy.reflect.test.bean.TestGSettersFieldBean;
 
 
 public class GSKevvyFieldTest extends AbstractKevvyFieldTest {

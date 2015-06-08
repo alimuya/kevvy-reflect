@@ -12,7 +12,6 @@ import com.alimuya.kevvy.reflect.KevvyMethod;
 import com.alimuya.kevvy.reflect.KevvyMethodReflect;
 import com.alimuya.kevvy.reflect.exception.InvokeTargetException;
 import com.alimuya.kevvy.reflect.exception.MethodReflectException;
-import com.alimuya.kevvy.reflect.test.bean.TestMethodInvokeBean;
 
 public class KevvyMethodTest extends TestCase {
 
@@ -57,7 +56,7 @@ public class KevvyMethodTest extends TestCase {
 	public void test3Invoke() {
 		KevvyMethod method = kr.getMethod("test3",String.class,String.class,double.class,Long.class);
 		try {
-			Method javaMethod = TestMethodInvokeBean.class.getMethod("test3",String.class,String.class,double.class,Long.class);
+			Method javaMethod = TestMethodInvokeBean.class.getDeclaredMethod("test3",String.class,String.class,double.class,Long.class);
 			Object javaResult=javaMethod.invoke(bean, "womeng","234",2.3,new Long(345673L));
 			Object kevvyResult=method.invoke(bean, "womeng","234",2.3,new Long(345673L));
 			assertEquals(javaResult, kevvyResult);
@@ -71,7 +70,8 @@ public class KevvyMethodTest extends TestCase {
 	public void test4Invoke() {
 		try {
 			KevvyMethod method = kr.getMethod("test4",String [].class,  Long.class);
-			Method javaMethod = TestMethodInvokeBean.class.getMethod("test4",String [].class,  Long.class);
+			Method javaMethod = TestMethodInvokeBean.class.getDeclaredMethod("test4",String [].class,  Long.class);
+			javaMethod.setAccessible(true);
 			Object javaResult=javaMethod.invoke(bean, new String []{"womeng","234"},new Long(345673L));
 			Object kevvyResult=method.invoke(bean,  new String []{"womeng","234"},new Long(345673L));
 			assertEquals(javaResult, kevvyResult);
@@ -85,7 +85,8 @@ public class KevvyMethodTest extends TestCase {
 	public void test5Invoke() {
 		try {
 			KevvyMethod method = kr.getMethod("test5");
-			Method javaMethod = TestMethodInvokeBean.class.getMethod("test5");
+			Method javaMethod = TestMethodInvokeBean.class.getDeclaredMethod("test5");
+			javaMethod.setAccessible(true);
 			Object javaResult=javaMethod.invoke(bean);
 			Object kevvyResult=method.invoke(bean);
 			assertEquals(javaResult, kevvyResult);
@@ -99,7 +100,8 @@ public class KevvyMethodTest extends TestCase {
 	public void test6Invoke() {
 		try {
 			KevvyMethod method = kr.getMethod("test6",String [].class,  int.class);
-			Method javaMethod = TestMethodInvokeBean.class.getMethod("test6",String [].class,  int.class);
+			Method javaMethod = TestMethodInvokeBean.class.getDeclaredMethod("test6",String [].class,  int.class);
+			javaMethod.setAccessible(true);
 			Object javaResult=javaMethod.invoke(bean,new String []{"womeng","234"},23);
 			Object kevvyResult=method.invoke(bean,new String []{"womeng","234"},23);
 			assertTrue(Arrays.equals((int[])javaResult,(int[]) kevvyResult));
@@ -114,7 +116,8 @@ public class KevvyMethodTest extends TestCase {
 	public void testNullArgsInvoke() {
 		try {
 			KevvyMethod method = kr.getMethod("test6",String [].class,  int.class);
-			Method javaMethod = TestMethodInvokeBean.class.getMethod("test6",String [].class,  int.class);
+			Method javaMethod = TestMethodInvokeBean.class.getDeclaredMethod("test6",String [].class,  int.class);
+			javaMethod.setAccessible(true);
 			Object javaResult=javaMethod.invoke(bean,null,23);
 			Object kevvyResult=method.invoke(bean,null,23);
 			assertTrue(Arrays.equals((int[])javaResult,(int[]) kevvyResult));
@@ -182,6 +185,17 @@ public class KevvyMethodTest extends TestCase {
 		javaMethod.setAccessible(true);
 		Object kevvyResult = method.invoke(bean,23L,"abc");
 		Object javaResult=javaMethod.invoke(bean,23L,"abc");
+		assertEquals(kevvyResult, javaResult);
+	}
+	
+
+	@Test
+	public void testDirectStatic11() throws Exception {
+		KevvyMethod method = kr.getMethod("test11",String.class);
+		Method javaMethod = TestMethodInvokeBean.class.getDeclaredMethod("test11",String.class);
+		javaMethod.setAccessible(true);
+		Object kevvyResult = method.invoke(bean,"abc");
+		Object javaResult=javaMethod.invoke(bean,"abc");
 		assertEquals(kevvyResult, javaResult);
 	}
 }
