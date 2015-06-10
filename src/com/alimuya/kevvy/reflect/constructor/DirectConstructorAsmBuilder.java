@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
 import com.alimuya.kevvy.reflect.IReflectObjectBuilder;
 import com.alimuya.kevvy.reflect.KevvyConstructor;
@@ -14,7 +15,6 @@ import com.alimuya.kevvy.reflect.exception.ConstructorReflectException;
 import com.alimuya.kevvy.reflect.exception.InvokeTargetException;
 import com.alimuya.kevvy.reflect.utils.AsmUtils;
 import com.alimuya.kevvy.reflect.utils.ReflectUtils;
-import com.sun.xml.internal.ws.org.objectweb.asm.Type;
 
 /**
  * @author ov_alimuya
