@@ -15,8 +15,10 @@ public abstract class KevvyMethod extends AbstractReflectObject<Method>{
 		try {
 			return _invoke(obj,args);
 		} catch (Throwable e) {
-			if(e instanceof MethodReflectException || e instanceof InvokeTargetException){
-				throw e;
+			if(e instanceof MethodReflectException){
+				throw (MethodReflectException)e;
+			}else if( e instanceof InvokeTargetException){
+				throw (InvokeTargetException)e;
 			}else{
 				StackTraceElement[] sts = e.getStackTrace();
 				if(sts[0].getClassName().equals(this.getClass().getName())){

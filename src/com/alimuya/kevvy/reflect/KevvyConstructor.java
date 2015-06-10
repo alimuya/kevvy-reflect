@@ -15,8 +15,10 @@ public abstract class KevvyConstructor<T> extends AbstractReflectObject<Construc
 		try {
 			return _newInstance(args);
 		} catch (Throwable e) {
-			if(e instanceof ConstructorReflectException || e instanceof InvokeTargetException){
-				throw e;
+			if(e instanceof ConstructorReflectException){
+				throw (ConstructorReflectException)e;
+			}else if(e instanceof InvokeTargetException){
+				throw (InvokeTargetException)e;
 			}else{
 				StackTraceElement[] sts = e.getStackTrace();
 				if(sts[0].getClassName().equals(this.getClass().getName())){
