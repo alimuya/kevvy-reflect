@@ -1,7 +1,6 @@
 package com.alimuya.kevvy.reflect.test.method;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
 import junit.framework.TestCase;
 
@@ -10,8 +9,6 @@ import org.junit.Test;
 
 import com.alimuya.kevvy.reflect.KevvyMethod;
 import com.alimuya.kevvy.reflect.KevvyMethodReflect;
-import com.alimuya.kevvy.reflect.method.JavaOriginalMethodBuilder.JavaOriginalReflectMethod;
-import com.alimuya.kevvy.reflect.method.MethodAccessorReflectMethod;
 
 public class KevvyMethodReflectTest extends TestCase{
 

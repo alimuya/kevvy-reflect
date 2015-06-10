@@ -12,20 +12,20 @@ public class TestMethodInvokeBean {
 //		throw new Exception();
 	}
 	
-	public void test2 (String p1,long p2){
+	public static void test2 (String p1,long p2){
 		
 	}
 	
 	
-	public String test3(String p1, String p2, double p3, Long p4){
+	public static String test3(String p1, String p2, double p3, Long p4){
 		return "sssss";
 	}
-		
-	private double test4(String [] p1,  Long p2){
+//		
+	private static double test4(String [] p1,  Long p2){
 		return 0.2;
 	}
 	
-	protected List<String> test5(){
+	public static List<String> test5(){
 		return new ArrayList<String>(){
 			/**
 			 * 
@@ -36,7 +36,7 @@ public class TestMethodInvokeBean {
 		};
 	}
 	
-	int[] test6(String [] p1,  int p2){
+	static int[] test6(String [] p1,  int p2){
 		return new int[]{0,1,3,4,5};
 	}
 	
@@ -44,7 +44,7 @@ public class TestMethodInvokeBean {
 		throw new IOException();
 	}
 	
-	
+//	
 	@SuppressWarnings("unused")
 	private void test8(){
 		
