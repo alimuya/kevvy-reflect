@@ -26,7 +26,7 @@ public class DirectConstructorAsmBuilder implements Opcodes,IReflectObjectBuilde
 	
 	@Override
 	public boolean isSuitable(Member member) {
-		return ReflectUtils.isNotPrivate(member) && !ReflectUtils.isStatic(member);
+		return ReflectUtils.isNotPrivate(member);
 	}
 
 	@Override
