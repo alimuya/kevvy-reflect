@@ -31,7 +31,7 @@ class DirectMethodAsmBuilder implements Opcodes,IReflectObjectBuilder<KevvyMetho
 	
 	@Override
 	public boolean isSuitable(Member member) {
-		return ReflectUtils.isNotPrivate(member) && !ReflectUtils.isStatic(member);
+		return ReflectUtils.isNotPrivate(member);
 	}
 
 	@Override
@@ -41,12 +41,63 @@ class DirectMethodAsmBuilder implements Opcodes,IReflectObjectBuilder<KevvyMetho
 		this.beanClass=beanClass;
 		String newClassName=this.createNewClassName(method);
 		ClassWriter classWriter = AsmUtils.buildClass(newClassName,KevvyMethod.class);
-		createInvokeMethod(classWriter,beanClass,method);
+		if(ReflectUtils.isStatic(member)){
+			createStaticInvokeMethod(classWriter,beanClass,method);
+		}else{
+			createInvokeMethod(classWriter,beanClass,method);
+		}
 		classWriter.visitEnd();
 		byte[] bytes = classWriter.toByteArray();
 		return AsmUtils.asmNewInstance(beanClass,KevvyMethod.class, newClassName, bytes);
 	}
 	
+	private void createStaticInvokeMethod(ClassWriter cw,
+			Class<?> beanClass2, Method method) {
+		String name4asm=AsmUtils.toAsmCls(beanClass);
+		Class<?> returnClass = method.getReturnType();
+		Class<?>[] argsClass = method.getParameterTypes();
+		String methodDescriptor=AsmUtils.getMethodDesc(returnClass, argsClass);
+		int vMax=1;
+		int oMax=3;
+		MethodVisitor mv = cw.visitMethod(ACC_PROTECTED + ACC_VARARGS, "_invoke", 
+				"(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;", null,
+				new String []{AsmUtils.toAsmCls(InvokeTargetException.class),AsmUtils.toAsmCls(MethodReflectException.class)});
+		mv.visitCode();
+		
+		for (int i = 0; i < argsClass.length; i++) {
+			Class<?> requestClass = argsClass[i];
+			if(requestClass.isPrimitive()){
+				requestClass=AsmUtils.convert2WrapperClass(requestClass);
+			}
+			addConvertArgsType(mv, requestClass, i,3);
+		}
+		
+		for (int i = 0; i < argsClass.length; i++) {
+			mv.visitVarInsn(ALOAD, i+3);
+			vMax++;
+			oMax++;
+			Class<?> requestClass = argsClass[i];
+			if(requestClass.isPrimitive()){
+				Class<?> wrapperClass = AsmUtils.convert2WrapperClass(requestClass);
+				mv.visitMethodInsn(INVOKEVIRTUAL, AsmUtils.toAsmCls(wrapperClass), 
+						requestClass.getSimpleName()+"Value", 
+						"()"+Type.getDescriptor(requestClass), false);
+			}
+		}
+		
+		mv.visitMethodInsn(INVOKESTATIC, name4asm, method.getName(), methodDescriptor, false);
+		if(returnClass==void.class){
+			mv.visitInsn(ACONST_NULL);
+		}else if(returnClass.isPrimitive()){
+			Class<?> wrapperClass = AsmUtils.convert2WrapperClass(returnClass);
+			mv.visitMethodInsn(INVOKESTATIC, AsmUtils.toAsmCls(wrapperClass), "valueOf",
+					"("+Type.getDescriptor(returnClass)+")"+Type.getDescriptor(wrapperClass), false);
+		}
+		mv.visitInsn(ARETURN);
+		mv.visitMaxs(vMax, oMax);
+		mv.visitEnd();
+	}
+
 	private int countExtraVmax(Class<?>[] argsClass,Class<?> returnClass){
 		int count=0;
 		for (int i = 0; i < argsClass.length; i++) {
@@ -82,7 +133,7 @@ class DirectMethodAsmBuilder implements Opcodes,IReflectObjectBuilder<KevvyMetho
 			if(requestClass.isPrimitive()){
 				requestClass=AsmUtils.convert2WrapperClass(requestClass);
 			}
-			addConvertArgsType(mv, requestClass, i);
+			addConvertArgsType(mv, requestClass, i,4);
 		}
 		mv.visitVarInsn(ALOAD, 3);
 		for (int i = 0; i < argsClass.length; i++) {
@@ -110,7 +161,7 @@ class DirectMethodAsmBuilder implements Opcodes,IReflectObjectBuilder<KevvyMetho
 		mv.visitEnd();
 	}
 	
-	private void addConvertArgsType(MethodVisitor mv,Class<?> requestClass, int index){
+	private void addConvertArgsType(MethodVisitor mv,Class<?> requestClass, int index,int offset){
 		mv.visitVarInsn(ALOAD, 2);
 		if(index<=5){
 			mv.visitInsn(AsmUtils.getArrayIndexIConstOpcode(index));
@@ -121,7 +172,7 @@ class DirectMethodAsmBuilder implements Opcodes,IReflectObjectBuilder<KevvyMetho
 		if(requestClass!=Object.class){
 			mv.visitTypeInsn(CHECKCAST, AsmUtils.toAsmCls(requestClass));
 		}
-		mv.visitVarInsn(ASTORE, index+4);
+		mv.visitVarInsn(ASTORE, index+offset);
 	}
 	
 	
