@@ -61,9 +61,6 @@ public class KevvyConstructorReflect<T> {
 	
 	@SuppressWarnings("unchecked")
 	public static<T> KevvyConstructorReflect<T> createConstructor(Class<T> claz) throws ConstructorReflectException{
-		if(claz==null || claz.isPrimitive()){
-			throw new IllegalArgumentException("argument claz==null || claz.isPrimitive()");
-		}
 		KevvyConstructorReflect<T> reflect;
 		synchronized (cache) {
 			reflect = (KevvyConstructorReflect<T>) cache.get(claz);
@@ -77,6 +74,9 @@ public class KevvyConstructorReflect<T> {
 	
 	@SuppressWarnings("unchecked")
 	public static <T>T newIstanceWithoutConstructor(Class<T> claz) throws ConstructorReflectException{
+		if(claz==null || claz.isPrimitive()){
+			throw new ConstructorReflectException("argument claz==null || claz.isPrimitive()");
+		}
 		try {
 			return (T) UnsafeFactory.getUnsafe().allocateInstance(claz);
 		} catch (Throwable e) {
