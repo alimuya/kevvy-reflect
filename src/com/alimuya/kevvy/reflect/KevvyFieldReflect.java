@@ -35,9 +35,6 @@ public class KevvyFieldReflect {
 	}
 	
 	public static KevvyFieldReflect createFieldReflect(Class<?> claz) throws FieldReflectException{
-		if(claz==null || claz.isPrimitive()){
-			throw new IllegalArgumentException("argument claz==null || claz.isPrimitive()");
-		}
 		KevvyFieldReflect reflect;
 		synchronized (cache) {
 			reflect = cache.get(claz);

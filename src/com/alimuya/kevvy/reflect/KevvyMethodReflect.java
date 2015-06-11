@@ -39,9 +39,6 @@ public class KevvyMethodReflect {
 	}
 	
 	public static KevvyMethodReflect createMethodReflect(Class<?> claz) throws MethodReflectException{
-		if(claz==null || claz.isPrimitive()){
-			throw new IllegalArgumentException("argument claz==null || claz.isPrimitive()");
-		}
 		KevvyMethodReflect reflect;
 		synchronized (cache) {
 			reflect = cache.get(claz);
