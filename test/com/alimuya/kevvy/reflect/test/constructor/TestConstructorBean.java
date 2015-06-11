@@ -3,6 +3,16 @@ package com.alimuya.kevvy.reflect.test.constructor;
 import java.util.List;
 
 public class TestConstructorBean {
+	private class Inter{
+		
+	}
+	
+	private Inter in=new Inter();
+	public static Class<?> getInnterClass(){
+		TestConstructorBean bean=new TestConstructorBean();
+		return bean.in.getClass();
+	}
+	
 	public TestConstructorBean (){}
 	
 	TestConstructorBean (String  p1){}

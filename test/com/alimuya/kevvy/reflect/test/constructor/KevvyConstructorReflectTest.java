@@ -2,14 +2,14 @@ package com.alimuya.kevvy.reflect.test.constructor;
 
 import java.lang.reflect.Constructor;
 
+import junit.framework.TestCase;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import com.alimuya.kevvy.reflect.KevvyConstructor;
 import com.alimuya.kevvy.reflect.KevvyConstructorReflect;
 import com.alimuya.kevvy.reflect.exception.ConstructorReflectException;
-
-import junit.framework.TestCase;
 
 public class KevvyConstructorReflectTest extends TestCase {
 
@@ -46,12 +46,57 @@ public class KevvyConstructorReflectTest extends TestCase {
 		KevvyConstructorReflect<TestConstructorBean> cr = KevvyConstructorReflect.createConstructor(TestConstructorBean.class);
 		assertNotNull(cr);
 	}
-
+	
+	@Test
+	public void testBaseClassP() throws ConstructorReflectException {
+		KevvyConstructorReflect<Long> cr = KevvyConstructorReflect.createConstructor(long.class);
+		KevvyConstructor<Long>[] cs = cr.getConstructors();
+		assertEquals(cs.length, 0);
+	}
+	
+	@Test
+	public void testAbstractClassP() throws ConstructorReflectException {
+		KevvyConstructorReflect<Runnable> cr = KevvyConstructorReflect.createConstructor(Runnable.class);
+		KevvyConstructor<Runnable>[] cs = cr.getConstructors();
+		assertEquals(cs.length, 0);
+	}
+	
 	@Test
 	public void testNewIstanceWithoutConstructor() throws ConstructorReflectException {
 		TestConstructorBean bean = KevvyConstructorReflect.newIstanceWithoutConstructor(TestConstructorBean.class);
 		assertNotNull(bean);
 		assertTrue(bean instanceof TestConstructorBean);
+	}
+	
+	
+	@Test
+	public void testWithoutConstructorAbstractClassP(){
+		Runnable bean;
+		try {
+			bean = KevvyConstructorReflect.newIstanceWithoutConstructor(Runnable.class);
+			fail();
+		} catch (ConstructorReflectException e) {
+			assertTrue(true);
+		}
+	}
+	
+	@Test
+	public void testWithoutConstructorInnterClassP() throws ConstructorReflectException{
+		Object bean;
+		bean = KevvyConstructorReflect.newIstanceWithoutConstructor(TestConstructorBean.getInnterClass());
+		assertNotNull(bean);
+		assertEquals(bean.getClass(), TestConstructorBean.getInnterClass());
+	}
+	
+	@Test
+	public void testWithoutConstructorBaseClassP(){
+		long bean;
+		try {
+			bean = KevvyConstructorReflect.newIstanceWithoutConstructor(long.class);
+			fail();
+		} catch (ConstructorReflectException e) {
+			assertTrue(true);
+		}
 	}
 
 }

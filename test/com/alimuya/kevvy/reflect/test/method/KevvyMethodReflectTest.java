@@ -26,7 +26,22 @@ public class KevvyMethodReflectTest extends TestCase{
 		KevvyMethodReflect kr = KevvyMethodReflect.createMethodReflect(TestMethodInvokeBean.class);
 		assertNotNull(kr);
 	}
-
+	
+	@Test
+	public void testBaseClassP() throws Exception {
+		KevvyMethodReflect kr = KevvyMethodReflect.createMethodReflect(long.class);
+		assertEquals(kr.getMethods().length, 0);
+	}
+	
+	
+	@Test
+	public void testInterClassP() throws Exception {
+		KevvyMethodReflect kr = KevvyMethodReflect.createMethodReflect(TestMethodInvokeBean.getInnterClass());
+		assertEquals(kr.getMethods().length, 1);
+		KevvyMethod method = kr.getMethod("test");
+		assertEquals(method.invoke(TestMethodInvokeBean.getInnter()),5);
+	}
+	
 	@Test
 	public void testGetMethods() {
 		KevvyMethod[] methods = kr.getMethods();

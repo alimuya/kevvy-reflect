@@ -6,6 +6,22 @@ import java.util.List;
 
 
 public class TestMethodInvokeBean {
+	private class Inter{
+		int test(){
+			return 5;
+		}
+	}
+	
+	private Inter in=new Inter();
+	public static Class<?> getInnterClass(){
+		TestMethodInvokeBean bean=new TestMethodInvokeBean();
+		return bean.in.getClass();
+	}
+	
+	public static Inter getInnter(){
+		TestMethodInvokeBean bean=new TestMethodInvokeBean();
+		return bean.in;
+	}
 	
 	public void test1() throws Exception{
 //		System.out.println("ssssssssssss");
