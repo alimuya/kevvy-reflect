@@ -1,5 +1,5 @@
 # Kevvy-Reflect
-Faster Reflection, applies to the case of frequent calls!!
+High performance java reflection, applies to the case of frequent calls!!
 
 ## Overview
 Kevvy-Reflect is a very small Java library that provides high performance reflection by using code generation(depends on ASM).
