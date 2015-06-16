@@ -16,27 +16,21 @@ import com.alimuya.kevvy.reflect.utils.UnsafeFactory;
 public final class KevvyConstructorReflect<T> {
 	private static Map<Class<?>, KevvyConstructorReflect<?>> cache=new HashMap<Class<?>,KevvyConstructorReflect<?>>();
 	private KevvyConstructor<T>[] array=null;
-	private Map<String,KevvyConstructor<T>> map=new HashMap<String,KevvyConstructor<T>>(); 
+	private Map<String,KevvyConstructor<T>> map=new HashMap<String,KevvyConstructor<T>>();
+	private ConstructorReflectDirector builder;
+	private Class<T> claz; 
 	
-	@SuppressWarnings("unchecked")
-	private KevvyConstructorReflect(Class<T> claz) throws ConstructorReflectException{
-		try {
-			Constructor<T>[] constructors = (Constructor<T>[]) claz.getDeclaredConstructors();
-			int length=constructors.length;
-			array=new KevvyConstructor[length];
-			ConstructorReflectDirector builder=new ConstructorReflectDirector(claz);
-			for (int i = 0; i < length; i++) {
-				Constructor<T> constructor = constructors[i];
-				KevvyConstructor<T> kevvyConstructor = builder.build(constructor);
-				kevvyConstructor.setOriginal(constructor);
-				array[i]=kevvyConstructor;
-				map.put(getClassesKey(constructor.getParameterTypes()), kevvyConstructor);
-			}
-		} catch (Exception e) {
-			throw new ConstructorReflectException(e);
-		}
+	private KevvyConstructorReflect(Class<T> claz){
+		this.claz=claz;
+		this.builder=new ConstructorReflectDirector(claz);
 	}
 	
+	
+	private KevvyConstructor<T> getKevvyConstructor(Constructor<T> constructor){
+		KevvyConstructor<T> kevvyConstructor = builder.build(constructor);
+		kevvyConstructor.setOriginal(constructor);
+		return kevvyConstructor;
+	}
 	
 	private String getClassesKey(Class<?>[] classes){
 		StringBuilder sb=new StringBuilder();
@@ -48,7 +42,25 @@ public final class KevvyConstructorReflect<T> {
 		return sb.toString();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public KevvyConstructor<T>[] getConstructors(){
+		synchronized (map) {
+			if(array==null){
+				Constructor<T>[] constructors = (Constructor<T>[]) claz.getDeclaredConstructors();
+				int length=constructors.length;
+				array=new KevvyConstructor[length];
+				for (int i = 0; i < length; i++) {
+					Constructor<T> constructor = constructors[i];
+					String key=getClassesKey(constructor.getParameterTypes());
+					KevvyConstructor<T> kevvyConstructor = map.get(key);
+					if(kevvyConstructor==null){
+						kevvyConstructor=getKevvyConstructor(constructor);
+						map.put(key, kevvyConstructor);
+					}
+					array[i]=kevvyConstructor;
+				}
+			}
+		}
 		return array.clone();
 	}
 	
@@ -56,11 +68,28 @@ public final class KevvyConstructorReflect<T> {
 		if(args==null){
 			throw new IllegalArgumentException("args ==null");
 		}
-		return map.get(getClassesKey(args));
+		String key=getClassesKey(args);
+		KevvyConstructor<T> kevvyConstructor;
+		synchronized (map) {
+			kevvyConstructor = map.get(key);
+			if(kevvyConstructor==null){
+				try {
+					Constructor<T> constructor = this.claz.getDeclaredConstructor(args);
+					kevvyConstructor=getKevvyConstructor(constructor);
+					map.put(key, kevvyConstructor);
+				} catch (NoSuchMethodException e) {
+					return null;
+				}
+			}
+		}
+		return kevvyConstructor;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static<T> KevvyConstructorReflect<T> createConstructor(Class<T> claz) throws ConstructorReflectException{
+	public static<T> KevvyConstructorReflect<T> createConstructor(Class<T> claz){
+		if(claz==null){
+			throw new NullPointerException("claz ==null");
+		}
 		KevvyConstructorReflect<T> reflect;
 		synchronized (cache) {
 			reflect = (KevvyConstructorReflect<T>) cache.get(claz);
