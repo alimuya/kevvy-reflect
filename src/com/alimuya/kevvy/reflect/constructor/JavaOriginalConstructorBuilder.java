@@ -26,7 +26,7 @@ public class JavaOriginalConstructorBuilder implements IReflectObjectBuilder<Kev
 		return new JavaOriginalReflectConstructor();
 	}
 	
-	public static class JavaOriginalReflectConstructor<T> extends KevvyConstructor<T>{
+	public final static class JavaOriginalReflectConstructor<T> extends KevvyConstructor<T>{
 		
 		@Override
 		protected T _newInstance(Object... args) throws ConstructorReflectException, InvokeTargetException {

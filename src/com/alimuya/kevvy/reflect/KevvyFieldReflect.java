@@ -11,7 +11,7 @@ import com.alimuya.kevvy.reflect.field.FieldReflectDirector;
  * @author ov_alimuya
  *
  */
-public class KevvyFieldReflect {
+public final class KevvyFieldReflect {
 	private static Map<Class<?>, KevvyFieldReflect> cache=new HashMap<Class<?>, KevvyFieldReflect>();
 	private Map<String,KevvyField> map=new HashMap<String,KevvyField>();
 	private KevvyField[] array=null;

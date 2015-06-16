@@ -6,7 +6,7 @@ import sun.misc.Unsafe;
  * @author ov_alimuya
  *
  */
-public class UnsafeFactory {
+public final class UnsafeFactory {
 	private static Unsafe unsafe;
 	static {
 		getUnsafe();

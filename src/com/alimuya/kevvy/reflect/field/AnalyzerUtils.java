@@ -12,7 +12,7 @@ import com.alimuya.kevvy.reflect.utils.AsmUtils;
  * @author ov_alimuya
  *
  */
-class AnalyzerUtils implements Opcodes{
+final class AnalyzerUtils implements Opcodes{
 	static boolean isReturnNode(AbstractInsnNode node,boolean isVoid){
 		if(node instanceof InsnNode){
 			InsnNode var = (InsnNode)node;

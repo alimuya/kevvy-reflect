@@ -29,7 +29,7 @@ public class JavaOriginalMethodBuilder implements IReflectObjectBuilder<KevvyMet
 	 * @author ov_alimuya
 	 *
 	 */
-	public static class JavaOriginalReflectMethod extends KevvyMethod{
+	public final static class JavaOriginalReflectMethod extends KevvyMethod{
 
 		@Override
 		protected Object _invoke(Object obj, Object... args) throws MethodReflectException, InvokeTargetException {

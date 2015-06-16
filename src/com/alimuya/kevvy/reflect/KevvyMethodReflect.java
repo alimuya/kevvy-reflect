@@ -11,7 +11,7 @@ import com.alimuya.kevvy.reflect.method.MethodReflectDirector;
  * @author ov_alimuya
  *
  */
-public class KevvyMethodReflect {
+public final class KevvyMethodReflect {
 	private static Map<Class<?>, KevvyMethodReflect> cache=new HashMap<Class<?>, KevvyMethodReflect>();
 	private Map<String,KevvyMethod> map=new HashMap<String,KevvyMethod>();
 	private KevvyMethod[] array=null;

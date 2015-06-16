@@ -20,7 +20,7 @@ import com.alimuya.kevvy.reflect.utils.ReflectUtils;
  * @author ov_alimuya
  *
  */
-class DirectMethodAsmBuilder implements Opcodes,IReflectObjectBuilder<KevvyMethod>{
+final class DirectMethodAsmBuilder implements Opcodes,IReflectObjectBuilder<KevvyMethod>{
 	private Class<?> beanClass;
 	private static AtomicInteger id=new AtomicInteger(0);
 	

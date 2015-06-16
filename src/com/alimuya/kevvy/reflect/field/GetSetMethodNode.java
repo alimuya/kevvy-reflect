@@ -6,7 +6,7 @@ import org.objectweb.asm.tree.MethodNode;
  * @author ov_alimuya
  *
  */
-public class GetSetMethodNode {
+public final class GetSetMethodNode {
 	private MethodNode getter;
 	private MethodNode setter;
 	

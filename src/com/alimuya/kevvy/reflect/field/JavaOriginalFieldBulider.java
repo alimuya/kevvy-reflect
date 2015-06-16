@@ -27,7 +27,7 @@ class JavaOriginalFieldBulider implements IReflectObjectBuilder<KevvyField>{
 	 * @author ov_alimuya
 	 *
 	 */
-	public static  class JavaOriginalReflectField extends KevvyField{
+	public final static  class JavaOriginalReflectField extends KevvyField{
 		
 		@Override
 		public Object get(Object obj) throws FieldReflectException {

@@ -87,7 +87,7 @@ public final class AsmUtils extends ClassLoader implements Opcodes{
 		String superName4Asm = AsmUtils.toAsmCls(superClass);
 		ClassWriter cw = new ClassWriter(0);
 		MethodVisitor mv;
-		cw.visit(AsmUtils.getJDKVersionTag(), ACC_PUBLIC + ACC_SUPER, AsmUtils.toAsmCls(newClassName), signature, superName4Asm, null);
+		cw.visit(AsmUtils.getJDKVersionTag(), ACC_PUBLIC + ACC_SUPER+ACC_FINAL, AsmUtils.toAsmCls(newClassName), signature, superName4Asm, null);
 		{
 			mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
 			mv.visitCode();

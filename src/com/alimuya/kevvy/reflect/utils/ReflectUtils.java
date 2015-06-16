@@ -7,7 +7,7 @@ import java.lang.reflect.Modifier;
  * @author ov_alimuya
  *
  */
-public class ReflectUtils {
+public final class ReflectUtils {
 	
 	public static boolean isNotPrivate(Member member){
 		int modifiers = member.getModifiers();

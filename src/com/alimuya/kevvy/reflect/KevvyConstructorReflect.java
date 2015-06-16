@@ -13,7 +13,7 @@ import com.alimuya.kevvy.reflect.utils.UnsafeFactory;
  *
  * @param <T>
  */
-public class KevvyConstructorReflect<T> {
+public final class KevvyConstructorReflect<T> {
 	private static Map<Class<?>, KevvyConstructorReflect<?>> cache=new HashMap<Class<?>,KevvyConstructorReflect<?>>();
 	private KevvyConstructor<T>[] array=null;
 	private Map<String,KevvyConstructor<T>> map=new HashMap<String,KevvyConstructor<T>>(); 
