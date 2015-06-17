@@ -21,6 +21,7 @@ import org.objectweb.asm.tree.MethodNode;
  *
  */
 public class BeanAnalyzer implements Opcodes{
+	private static Map<Class<?>,Map<String,GetSetMethodNode>> cache=new HashMap<Class<?>,Map<String,GetSetMethodNode>>(); 
 	private Class<?> claz;
 	
 	public BeanAnalyzer(Class<?> claz){
@@ -29,7 +30,11 @@ public class BeanAnalyzer implements Opcodes{
 	
 	@SuppressWarnings("unchecked")
 	public Map<String,GetSetMethodNode> getFieldGetSetMethodMap(){
-		Map<String,GetSetMethodNode> map=new HashMap<String, GetSetMethodNode>();
+		Map<String,GetSetMethodNode> map=cache.get(claz);
+		if(map!=null){
+			return map;
+		}
+		map=new HashMap<String, GetSetMethodNode>();
 		try {
 			ClassNode cn = new ClassNode();
 			ClassReader cr = new ClassReader(this.claz.getCanonicalName());
@@ -52,6 +57,7 @@ public class BeanAnalyzer implements Opcodes{
 					}
 				}
 			}
+			cache.put(claz, map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

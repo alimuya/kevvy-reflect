@@ -27,6 +27,9 @@ public final class KevvyConstructorReflect<T> {
 	
 	
 	private KevvyConstructor<T> getKevvyConstructor(Constructor<T> constructor){
+		if(!constructor.isAccessible()){
+			constructor.setAccessible(true);
+		}
 		KevvyConstructor<T> kevvyConstructor = builder.build(constructor);
 		kevvyConstructor.setOriginal(constructor);
 		return kevvyConstructor;
@@ -51,17 +54,28 @@ public final class KevvyConstructorReflect<T> {
 				array=new KevvyConstructor[length];
 				for (int i = 0; i < length; i++) {
 					Constructor<T> constructor = constructors[i];
-					String key=getClassesKey(constructor.getParameterTypes());
-					KevvyConstructor<T> kevvyConstructor = map.get(key);
-					if(kevvyConstructor==null){
-						kevvyConstructor=getKevvyConstructor(constructor);
-						map.put(key, kevvyConstructor);
-					}
+					KevvyConstructor<T> kevvyConstructor = this.getConstructor(constructor);
 					array[i]=kevvyConstructor;
 				}
 			}
 		}
 		return array.clone();
+	}
+	
+	public KevvyConstructor<T> getConstructor(Constructor<T> constructor){
+		if(constructor==null){
+			throw new NullPointerException("constructor ==null");
+		}
+		String key=getClassesKey(constructor.getParameterTypes());
+		KevvyConstructor<T> kevvyConstructor;
+		synchronized (map) {
+			kevvyConstructor = map.get(key);
+			if(kevvyConstructor==null){
+				kevvyConstructor=getKevvyConstructor(constructor);
+				map.put(key, kevvyConstructor);
+			}
+		}
+		return kevvyConstructor;
 	}
 	
 	public KevvyConstructor<T> getConstructor(Class<?> ...args){
@@ -85,6 +99,7 @@ public final class KevvyConstructorReflect<T> {
 		return kevvyConstructor;
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	public static<T> KevvyConstructorReflect<T> createConstructor(Class<T> claz){
 		if(claz==null){
@@ -104,7 +119,7 @@ public final class KevvyConstructorReflect<T> {
 	@SuppressWarnings("unchecked")
 	public static <T>T newIstanceWithoutConstructor(Class<T> claz) throws ConstructorReflectException{
 		if(claz==null || claz.isPrimitive()){
-			throw new ConstructorReflectException("argument claz==null || claz.isPrimitive()");
+			throw new ConstructorReflectException("argument claz==null or claz.isPrimitive()");
 		}
 		try {
 			return (T) UnsafeFactory.getUnsafe().allocateInstance(claz);
