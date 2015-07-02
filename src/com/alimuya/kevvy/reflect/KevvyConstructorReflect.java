@@ -117,7 +117,7 @@ public final class KevvyConstructorReflect<T> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <T>T newIstanceWithoutConstructor(Class<T> claz) throws ConstructorReflectException{
+	public static <T>T newInstanceWithoutConstructor(Class<T> claz) throws ConstructorReflectException{
 		if(claz==null || claz.isPrimitive()){
 			throw new ConstructorReflectException("argument claz==null or claz.isPrimitive()");
 		}
