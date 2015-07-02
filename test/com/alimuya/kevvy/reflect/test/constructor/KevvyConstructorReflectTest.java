@@ -63,7 +63,7 @@ public class KevvyConstructorReflectTest extends TestCase {
 	
 	@Test
 	public void testNewIstanceWithoutConstructor() throws ConstructorReflectException {
-		TestConstructorBean bean = KevvyConstructorReflect.newIstanceWithoutConstructor(TestConstructorBean.class);
+		TestConstructorBean bean = KevvyConstructorReflect.newInstanceWithoutConstructor(TestConstructorBean.class);
 		assertNotNull(bean);
 		assertTrue(bean instanceof TestConstructorBean);
 	}
@@ -73,7 +73,7 @@ public class KevvyConstructorReflectTest extends TestCase {
 	public void testWithoutConstructorAbstractClassP(){
 		Runnable bean;
 		try {
-			bean = KevvyConstructorReflect.newIstanceWithoutConstructor(Runnable.class);
+			bean = KevvyConstructorReflect.newInstanceWithoutConstructor(Runnable.class);
 			fail();
 		} catch (ConstructorReflectException e) {
 			assertTrue(true);
@@ -83,7 +83,7 @@ public class KevvyConstructorReflectTest extends TestCase {
 	@Test
 	public void testWithoutConstructorInnterClassP() throws ConstructorReflectException{
 		Object bean;
-		bean = KevvyConstructorReflect.newIstanceWithoutConstructor(TestConstructorBean.getInnterClass());
+		bean = KevvyConstructorReflect.newInstanceWithoutConstructor(TestConstructorBean.getInnterClass());
 		assertNotNull(bean);
 		assertEquals(bean.getClass(), TestConstructorBean.getInnterClass());
 	}
@@ -92,7 +92,7 @@ public class KevvyConstructorReflectTest extends TestCase {
 	public void testWithoutConstructorBaseClassP(){
 		long bean;
 		try {
-			bean = KevvyConstructorReflect.newIstanceWithoutConstructor(long.class);
+			bean = KevvyConstructorReflect.newInstanceWithoutConstructor(long.class);
 			fail();
 		} catch (ConstructorReflectException e) {
 			assertTrue(true);
