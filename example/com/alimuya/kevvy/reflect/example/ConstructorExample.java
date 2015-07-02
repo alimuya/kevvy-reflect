@@ -21,7 +21,7 @@ public class ConstructorExample {
 		}
 		//======================================
 		
-		TestConstructorBean emptyBean = KevvyConstructorReflect.newIstanceWithoutConstructor(TestConstructorBean.class);
+		TestConstructorBean emptyBean = KevvyConstructorReflect.newInstanceWithoutConstructor(TestConstructorBean.class);
 		if(emptyBean!=null && emptyBean instanceof TestConstructorBean){
 			System.out.println("HAHA2!");
 		}
